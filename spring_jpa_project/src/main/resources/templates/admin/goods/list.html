@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="https//www.thymeleaf.org">
+<head>
+	<th:block th:include="/admin/common::head"/>
+	<style type="text/css">
+		#content{
+			padding: 50px;
+		}
+		#sub ul{
+			border-top: 2px solid #aaa;
+			border-bottom: 1px solid #aaa;
+		}
+		#sub ul li{
+			padding: 0.5em 1em;
+		}
+		#result dl dd{
+			background-color: #e9e9e9;
+			padding: 1em;
+		}
+		#pagging{
+			padding: 1em 0;
+		}
+		#pagging button{
+			padding: 0.5em 1em;
+			margin: 0 5px;
+		}
+		.que::before {
+			content: "Q";
+			display:inline-block;
+			color: #fff;
+			background-color: #ff7787;
+			width: 24px;
+			height: 24px;
+			border-radius: 50%;
+			text-align: center;
+		}
+		#result li{
+			padding: 0.5em 1em;
+			flex: 1;
+		}
+		#result li{
+			
+		}
+	</style>
+	<script type="text/javascript">
+		$(function(){
+			getList();
+		});
+		
+		function getList(){
+			$.ajax({
+				url:"/admin/goods/all",
+				success:function(result){
+					$("#result").html(result);
+				}
+			});
+		}
+	</script>
+	
+</head>
+<body>
+	<main>
+		<h1>관리자페이지입니다.</h1>
+		<div class="wrap flex">
+			<th:block th:insert="/admin/common::menu"/>
+			<section id="content">
+				<h1>내용</h1>
+				<div class="wrap">
+					<p>상품정보 리스트페이지 입니다.</p>
+					
+					<div id="result">
+						<!-- list data -->
+					</div>
+				</div>
+			</section>
+		</div>
+	</main>
+</body>
+</html>

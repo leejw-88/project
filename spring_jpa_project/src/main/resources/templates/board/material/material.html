@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="/common/headCom::head"></th:block>
+	<th:block th:include="/common/headCom::tapmenu"></th:block>
+	<script type="text/javascript" th:src="@{/js/tapContent.js}"></script>
+</head>
+<body>
+	<th:block th:insert="/common/commons::header"></th:block>
+	<main>
+		<h1>도서자료 게시판</h1>
+		<div class="content-wrap">
+			<div class="title">
+				<p>도서자료</p>
+			</div>
+			<div class="tap-wrap">
+				<th:block th:insert="/common/tapmenu::tap-tit"></th:block>
+				<nav class="tap-navi">
+					<button type="button" th:value="detailSearch">도서검색</button>
+					<button type="button" th:value="recommend">추천도서</button>
+					<!-- <a href="/board/apitest" type="button" th:value="apitest">api테스트</a> -->
+				</nav>
+			</div>
+			<section id="matContent">
+				
+			</section>
+		</div>
+	</main>
+	<th:block th:insert="/common/commons::footer"></th:block>
+</body>
+<script type="text/javascript">
+$(function(){
+	pageLoading();
+});
+
+function pageLoading(){
+	$(".tap-navi button").eq(0).click();
+}
+$(".tap-navi button").click(function(){
+	var page=$(this).val();
+	$.ajax({
+		type: "get" ,
+		url: "/board/material/"+page,
+		dataType: "html",
+		success:function(data){
+			//alert("성공");
+			$("#matContent").html(data);}
+		,error : function(){ alert("에러 발생");}
+		
+	});
+});
+</script>
+</html>

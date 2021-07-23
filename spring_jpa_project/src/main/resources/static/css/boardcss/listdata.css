@@ -1,0 +1,27 @@
+@charset "UTF-8";
+.taplist ul{
+	margin-top: 5px;
+	background-color: #f8f8f8;
+}
+.taplist li{
+	height: 42px;
+	line-height: 42px;
+	text-align: center;
+	padding: 10px;
+	font-size: 13px;
+	overflow: hidden;
+	border: 1px solid #e9e9e9;
+}
+.taplist ol li{
+	color: #444;
+}
+.listNo,.listView,.listFile{
+	width: 71px;
+}
+.listTit{
+	text-align: left !important;
+	width: 504px;
+}
+.listWriter,.listDate{
+	width: 90px;
+}

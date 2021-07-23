@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="https//www.thymeleaf.org">
+<head>
+	<th:block th:include="/admin/common::head"/>
+</head>
+<style type="text/css">
+	#file{
+		display: none;
+	}
+	.file-box{
+		display: inline-block;;
+		width: 300px;
+		height: 150px;
+		border: 2px solid aqua;
+		text-align: center;
+		color: aqua;
+		line-height: 150px;
+		font-size: 24px;
+		font-weight: 700;
+		cursor: pointer;
+		background-color: rgba(0,255,255,0.05);
+		
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+	}
+
+</style>
+<script type="text/javascript">
+	$(function(){
+		//파일이 선택되어 벨류가 변경되었을때 이벤트
+		$("#file").change(function(){
+			//console.log($("#file"));
+			var fileInfo=$("#file")[0].files[0];
+			//console.log(fileInfo);
+			var formData=new FormData(); //폼태그 요소를 담는 데이터타입
+			formData.append("tempFile",fileInfo);
+			// formData.append("no",$("title").val();); 
+			// data: {"file",fileInfo}, 
+			$.ajax({
+				url: "/admin/visual/temp",
+				type: "post",
+				data: formData,
+				contentType: false,
+				processData: false,
+				success:function(result){
+					//alert("result:"+result);
+					$(".file-box").css("background-image","url("+result+")");
+				}
+				/*
+				processData :기본 값은 true이다.
+							해당 값이 true일때는 data 값들이 쿼리스트링 형태인 key1=value1&key2=value2 형태로 전달된다.
+							하지만 이렇게 하면 file 값들은 제대로 전달되지 못한다.
+							그래서 해당 값을 false로 해주어 { key1 : 'value1', key2 : 'value2' } 형태로 전달해 주어야 file 값들이 제대로 전달된다.
+				contentType : 기본값은 'application/x-www-form-urlencoded'이다. 
+							해당 기본 타입으로는 파일이 전송 안되기 때문에 false로 해주어야 한다.
+				*/
+			}); 
+		});
+	});
+</script>
+<body>
+	<main>
+		<h1>관리자페이지입니다.</h1>
+		<div class="wrap flex">
+			<th:block th:insert="/admin/common::menu"/>
+			<section id="content">
+				<h1>내용</h1>
+				<div class="wrap">
+					<p>Visual 등록페이지 입니다.</p>
+					<form action="/admin/visual/write2" method="post" enctype="multipart/form-data">		
+						<p>
+						파일 :<label for="file" class="file-box">+</label><!-- for= id랑 맵핑됨 -->
+							<input id="file" type="file" name="file">
+						</p>
+						<p>
+						제목 :<input id="title" type="text" name="title">
+						</p>
+						<p>
+						링크 :<input type="text" name="link">
+						</p>
+						<p>
+							<button type="submit">등록</button>
+						</p>
+					</form>
+				</div>
+			</section>
+		</div>
+	</main>
+</body>
+</html>

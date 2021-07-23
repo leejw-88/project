@@ -1,0 +1,85 @@
+@charset "UTF-8";
+#footerWrap{
+	background-color:  #eaeaea;
+    padding-bottom: 20px;
+}
+#footerWrap>.footer{
+	position: relative;
+    max-width: 962px;
+    margin: 0 auto;
+}
+#footerWrap>.footer>.footer-logo{
+	position: absolute;
+	display: inline-block;
+	width: 215px;
+	height: 30px;
+	background-image: url("/images/jw_logo2_white.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    right: 220px;
+    bottom: 0px;
+    
+}
+#footerWrap>.footer>.footerMenu{
+	margin-left: 155px;
+    overflow: hidden;
+    padding-top: 25px;
+    max-width: 500px;
+}
+#footerWrap>.footer>.footerMenu li{
+	float: left;
+    font-size: 12px;
+}
+#footerWrap>.footer>.footerMenu li a{
+	margin: 0 9px;
+}
+#footerWrap>.footer>.footerMenu li:not(:first-child):before {
+	content: "|";
+	color: #666;
+}
+#footerWrap>.footer>.address{
+	margin: 0 250px 0 165px;
+    padding: 15px 0 10px 0;
+    color: #444444;
+    overflow: hidden;
+    font-size: 12px;
+}
+#footerWrap>.footer>.address>p{
+	padding: 3px 0;
+}
+#footerWrap>.footer>.copyright{
+    margin-left: 165px;
+    color: #666666;
+    font-size: 12px;
+}
+#footerWrap>.footer>.siteGroup{
+    position: absolute;
+    top: 35px;
+    right: 0;
+    overflow: hidden;
+}
+#footerWrap>.footer>.siteGroup>.siteList{
+    float: left;
+    padding-right: 5px;
+}
+#footerWrap>.footer>.siteGroup>.siteList>.site1{
+	padding-bottom: 20px;
+}
+#footerWrap>.footer>.siteGroup>.siteList select {
+	width: 140px;
+    padding: 2px;
+    color: #fff;
+    background: #84868A;
+    border: 1px solid #838383;
+    border-radius: 3px;
+}
+#footerWrap>.footer>.siteGroup>.siteList>li>.btn_go{
+    background: #8c8c8c;
+    display: inline-block;
+    padding: 3px 4px;
+    color: #fff;
+    border-radius: 3px;
+    top: 1px;
+    position: relative;
+}
+

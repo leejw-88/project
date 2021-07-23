@@ -1,0 +1,70 @@
+@charset "UTF-8";
+header{
+	width: 100%;
+    height: 114px;
+	background-color: #1a273a;
+}
+/* /////// 바로가기 영역 /////////////// */
+#header{
+	position: relative;
+	width: 962px;
+	height: 114px;
+	margin: 0 auto;
+}
+#header>a{
+	display: inline-block;
+	background-image: url("/images/jw_logo_white.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	width: 185px;
+	height: 70px;
+	position: absolute;
+    top: 20px;
+}
+/* /////// gnb 영역 /////////////// */
+#gnb{
+	position: absolute;
+    top: 2px;
+    right: 0px;
+    height: 19px;
+}
+#gnb li{
+	float: left;
+    padding: 0 10px;
+    line-height: 20px;
+}
+
+#gnb li:not(:first-child){
+    border-left: 1px solid #2b3749;
+}
+#gnb li span{
+	font-size: 13px;
+    color: #999;
+}
+#gnb li span a{
+	font-size: 13px;
+    color: #999;
+}
+#gnb li span span{
+	font-size: 13px;
+    color: #999;
+    padding-right: 5px;
+}
+/* /////// 네비게이션 영역 /////////////// */
+#naviWrap{
+	position: relative;
+	z-index: 10;
+    top: 62px;
+    left: 320px;
+}
+#naviWrap .navi>li{
+	min-width: 121px;
+	float: left;
+    text-align: center;
+}
+#naviWrap .navi > li > a {
+    font-size: 17px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+}

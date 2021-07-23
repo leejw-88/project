@@ -1,0 +1,24 @@
+@charset "UTF-8";
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+h1{
+	position: absolute;
+	left: -999px;
+	font-size: 0;
+}
+li{
+	list-style: none;
+}
+.flex{
+	display: flex;
+}
+#menu{
+	height: 100%;
+}
+#menu>.wrap{
+	height: 100%;
+	background-color: #e9e9e9;
+}

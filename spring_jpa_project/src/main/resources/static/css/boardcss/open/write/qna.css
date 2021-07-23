@@ -1,0 +1,71 @@
+@charset "UTF-8";
+#fromWrap{
+	width: 964px;
+	margin: 0 auto;
+}
+.con_tit>input{
+	width: 450px;
+	border: 1px solid #dedede;
+    height: 20px;
+    color: #666;
+}
+.con_writer>input{
+	border: 1px solid #dedede;
+    height: 20px;
+    color: #666;
+}
+#title_p{
+	width: 924px;
+	height: 30px;
+	line-height:30px;
+	font-size: 20px;
+	font-weight: 700;
+	color: #00529c;
+	padding: 10px 20px;
+	border-bottom: 1px solid #dedede;
+}
+.qna-write{
+	border-bottom: 1px solid #dedede;
+	height: 40px;
+	line-height: 40px;
+}
+.qna-write>li>span{
+	display: inline-block;
+	background-color: #f8f8f8;
+	width: 100px;
+	height: 40px;
+	border-left: 1px solid #dedede;
+	border-right: 1px solid #dedede;
+	text-align: center;
+}
+.qna-write>.con_tit{
+	width: 663px;
+
+}
+.qna-write>.con_writer{
+	width: 300px;
+}
+.qna_content>.con_text{
+	text-align: center;
+    padding: 20px;
+    border-bottom: 1px solid #dedede;
+}
+.qna_content>.con_text textarea{
+	border: 1px solid #dedede;
+    width: 848px;
+    height: 288px;
+    padding: 5px;
+}
+.board_bottom{
+	padding: 10px 20px 10px;
+}
+button{
+	width:90px;
+	height: 30px;
+	color:#00529c;
+	font-size: 13px;
+	font-weight: 700;
+	border: 2px solid #a9a9a9;
+	border-radius: 5px;
+	background-color: #fff;
+}

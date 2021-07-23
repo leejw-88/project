@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:include="/common/headCom::head"></th:block>
+</head>
+<body>
+	<!-- /////////// header 영역 //////////// -->
+<header th:fragment="header">
+	<section id="header">
+		<h1>상단영역</h1>
+		<!-- 바로가기 영역 -->
+		<h1>홈</h1>
+		<a href="/"></a>
+		<!-- 공통메뉴 영역 -->
+		<h1>공통메뉴</h1>
+		<div id="gnb">
+			<ul class="flex">
+				<li>
+					<span><!-- 로그인페이지 이동,로그아웃 -->
+						<a sec:authorize="isAnonymous()" href="/log/login">로그인</a>
+					</span>
+					<span  sec:authorize="isAuthenticated()">
+						<span class="user-name"  sec:authentication="principal.name"></span>
+						<span>님 어서오세요!</span>
+						<a href="/logout">로그아웃</a>
+						<a href="/admin/list" sec:authorize="hasRole('ADMIN')">*관리자페이지</a>
+					</span>
+				</li>
+				<li>
+					<span><!-- 회원가입페이지 이동 --><a href="/log/signup">회원가입</a></span>
+				</li>
+				<li>
+					<span><!-- 사이트맵페이지 이동 --><a href="#">사이트맵</a></span>
+				</li>
+			</ul>
+		</div>
+		<!-- 네비게이션 영역 -->
+		<nav id="naviWrap">
+			<h1>네비게이션</h1>
+			<ul class="navi flex">
+				<li class="menu1">
+					<a href="/board/information">도서관안내</a>
+				</li>
+				<li class="menu2">
+					<a href="/board/material">도서자료</a>
+				</li>
+				<li class="menu3">
+					<a href="/board/open">열린마당</a>
+				</li>
+				<li class="menu4">
+					<a href="/board/mymenu">나의도서관</a>
+				</li>
+			</ul>
+		</nav>
+	</section>
+</header>
+<!-- /////////// footer 영역 //////////// -->
+<footer th:fragment="footer">
+	<h1>하단영역</h1>
+	<section id="footerWrap">
+		<div class="footer">
+			<h1>하단메뉴</h1>
+			<ul class="footerMenu">
+				<li><a href="#">이용약관</a></li>
+				<li><a href="#" onclick="" target="_blank" title="새창열림">도서관운영규정</a></li>
+				<li><a href="#" target="_blank" title="새창열림">개인정보처리방침</a></li>
+				<li><a href="#" onclick="" target="_blank" title="새창열림">저작권정책</a></li>
+				<li><a href="#" onclick="" target="_blank" title="새창열림">이메일무단수집거부</a></li>
+			</ul>
+			<h1>주소</h1>
+			<address class="address">
+				<p>이제웅의 spring web 프로젝트 입니다.</p>
+				<p>고객안내전화 : 010-5874-2088</p>
+			</address>
+			<p class="copyright">COPYRIGHT.2021.LEE JE WOONG.All RIGTHS RESERVED.</p>
+			<span class="footer-logo"><!-- footer-logo이미지 --></span>
+			<h1>관련사이트 및 패밀리사이트 링크</h1>
+			<div class="siteGroup">
+				<ul class="siteList">
+					<li class="site1">
+						<label for="siteLink" hidden="관련사이트 바로가기"></label>
+						<select id="siteLink">
+							<option selected="selected" value="">관련사이트</option>
+							<option value="https://www.culture.go.kr/data">문화데이터광장</option>
+						</select>
+						<a href="https://www.culture.go.kr/data/" target="_blank" class="btn_go">이동</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+</footer>
+</body>
+</html>

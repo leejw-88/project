@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:include="/common/commons::head"></th:block>
+	<link rel="stylesheet" href="/css/index.css">
+</head>
+<script type="text/javascript">
+
+$(function(){
+	var pageNo="1";// 페이지번호 초기화
+	getBookList(pageNo);// 도서목록 출력
+	var num = 199;
+	start();
+	
+	function start(){
+		$("#booksList img").eq(num+1).css({left:-1200});
+		setInterval(function(){
+			slide();
+		},3000);
+	}
+	function slide(){
+		if(num == 0){
+			num = 199;
+		}else {
+			num--;
+		}	
+		$("#booksList img").eq(num+1).animate({ left : 1200 },3000,function(){
+			$("#booksList img").eq(num+1).css({ left : -1200 });
+		});
+		$("#booksList img").eq(num-1).animate({ left : 0 },3000);
+	}
+	
+	
+});
+
+
+
+
+// 도서목록 출력함수
+function getBookList(pageNo){
+	var URL="http://api.kcisa.kr/openapi/service/rest/meta4/getKCPG0506";//문화체육관광부 추천도서 api요청주소
+	var serviceKey="e162df86-2a29-4b6a-980e-0bb94ced47e8";//인증키
+	var numOfRows="200";//한페이지에 출력할 목록개수
+	$.ajax({
+		url: URL+"?serviceKey="+serviceKey+"&numOfRows="+numOfRows+"&pageNo="+pageNo, //통신을 원하는 URL주소를 입력합니다
+		type: 'GET', //통신 방식을 지정합니다
+		dataType: 'xml',//서버로부터 받을 데이터 타입을 입력합니다.
+		success: function (response) { // 통신 성공시 호출해야할 함수
+			xmlParsing(response);//도서페이지 출력함수 호출
+		},
+		error: function (xhr, status, msg) { // 통신 실패시 호출해야하는 함수
+		  console.log('상태값 : ' + status + ' Http에러메시지 : ' + msg);
+		}
+	});
+}
+
+	
+//화면에 도서페이지 출력
+function xmlParsing(data) {
+	var booksList = ``;
+	$(data).find('item').each(function(index, item){//넘어온 xml데이터에서 'item' 인덱스 번호만큼 반복
+		//console.log(item)
+		var _img=$(this).find('referenceIdentifier').text();//이미지
+		if(_img == ''){//등록된 이미지 없을시 noimg이미지 출력
+		var _img="/images/noimg.gif";
+		}
+			booksList += `
+				<div class="book_img">
+					<img src=${_img}>
+				</div>
+			`;
+						
+		$('#booksList').empty().append(booksList);// booksList 내용이 있으면 id='booksList'로 내용전송
+	});
+}
+
+</script>
+<body>
+<th:block th:insert="/common/commons::header"></th:block>
+	<main>
+	<h1>인덱스페이지</h1>
+	<section class="idxTop">
+		<h1>공지사항,묻고답하기</h1>
+		<div class="wrap flex between">
+			<h1>공지사항</h1>
+			<ul id="notice">
+				<li>
+					<p id="ptag">공지사항</p>
+				</li>
+				<li class="getNoticeList">
+					 <!-- 공지사항 게시판출력 -->
+					 
+					 <span id="getNoticeList"></span>
+				</li>
+			</ul>
+			<h1>묻고답하기</h1>
+			<ul id="qna">
+				<li>
+					<p id="ptag">묻고답하기</p>
+				</li>
+				<li class="getQnaList">
+					<!-- 묻고답하기 게시판출력 -->
+					<span id="getQnaList"></span>
+				</li>
+			</ul>
+		</div>
+	</section>
+	<!-- 이미지 목록출력 -->
+	<section id="booksList" class="flex">
+		<img src=" ">
+	</section>
+	<section class="idxBottom">
+		<h1>도서감상문,희망도서</h1>
+		<div  class="wrap flex between">
+			<h1>도서감상문</h1>
+			<ul id="bookReview">
+				<li>
+					<p id="ptag">도서감상문</p>
+				</li>
+				<li class="getBookReviewList">
+					<!-- 도서감상문 게시판출력 -->
+					<span id="getBookReviewList"></span>
+				</li>
+			</ul>
+			<h1>희망도서</h1>
+			<ul id="requestedBook">
+				<li>
+					<p id="ptag">희망도서</p>
+				</li>
+				<li class="getRequestedBookList">
+					<!-- 희망도서 게시판출력 -->
+					<span id="getRequestedBookList"></span>
+				</li>
+			</ul>
+		</div>
+	</section>
+	</main>
+<th:block th:insert="/common/commons::footer"></th:block>
+</body>
+<script type="text/javascript">
+
+$("#notice").click(function(){
+	$(location).attr("href", "/board/open/notice/"+pageNo);
+});
+$("#qna").click(function(){
+	$(location).attr("href", "/board/open/qnaboard/"+pageNo);
+});
+$("#bookReview").click(function(){
+	$(location).attr("href", "/board/open/bookReview/"+pageNo);
+});
+$("#requestedBook").click(function(){
+	$(location).attr("href", "/board/open/requestedbook/"+pageNo);
+});
+
+
+var pageNo=1; //페이지번호를 저장하는 변수
+$(function(){
+	pageNo=1;//페이지번호 1번으로 초기화
+	getQnaList();
+	getNoticeList();
+	getBookReviewList();
+	getRequestedBookList();
+});
+
+//공지사항 페이지 불러오기
+function getNoticeList(){
+	$.ajax({
+		type:"get",
+		data:{"page":pageNo},
+		url: "/board/open/notice/"+pageNo,
+		dataType: "html",
+		success:function(result){
+			//alert("성공");
+			var section = $(result).find('#openContent');
+			$("#getNoticeList").html(section);
+			$("#pagging button").click(function(){
+				pageNo=$(this).text().trim();
+				getNoticeList(); 
+			});	
+		}
+	});
+}
+//qna 페이지 불러오기
+function getQnaList(){
+	$.ajax({
+		type:"get",
+		data:{"page":pageNo},
+		url: "/board/open/qnaboard/"+pageNo,
+		dataType: "html",
+		success:function(result){
+			//alert("성공");
+			var section = $(result).find('#openContent');
+			$("#getQnaList").html(section);
+			$("#pagging button").click(function(){
+				pageNo=$(this).text().trim();
+				getQnaList(); 
+			});	
+		}
+	});
+}
+//도서감상문 페이지 불러오기
+function getBookReviewList(){
+	$.ajax({
+		type:"get",
+		data:{"page":pageNo},
+		url: "/board/open/bookReview/"+pageNo,
+		dataType: "html",
+		success:function(result){
+			//alert("성공");
+			var section = $(result).find('#openContent');
+			$("#getBookReviewList").html(section);
+			$("#pagging button").click(function(){
+				pageNo=$(this).text().trim();
+				getBookReviewList(); 
+			});	
+		}
+	});
+}
+//도서감상문 페이지 불러오기
+function getRequestedBookList(){
+	$.ajax({
+		type:"get",
+		data:{"page":pageNo},
+		url: "/board/open/requestedbook/"+pageNo,
+		dataType: "html",
+		success:function(result){
+			//alert("성공");
+			var section = $(result).find('#openContent');
+			$("#getRequestedBookList").html(section);
+			$("#pagging button").click(function(){
+				pageNo=$(this).text().trim();
+				getRequestedBookList(); 
+			});	
+		}
+	});
+}
+
+</script>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="/common/headCom::head"></th:block>
+	<th:block th:include="/common/headCom::tapmenu"></th:block>
+	<script type="text/javascript" th:src="@{/js/tapContent.js}"></script>
+</head>
+<body>
+	<th:block th:insert="/common/commons::header"></th:block>
+	<main>
+		<h1>나의도서관 게시판</h1>
+		<div class="content-wrap">
+			<div class="title">
+				<p>나의도서관</p>
+			</div>
+			<div class="tap-wrap">
+				<th:block th:insert="/common/tapmenu::tap-tit"></th:block>
+				<nav class="tap-navi">
+					<button type="button" th:value="myrequestedbook">신청한 희망도서</button>
+					<button type="button" th:value="mybookreview">내가쓴 감상문</button>
+				</nav>
+			</div>
+			<section id="myContent">
+				
+			</section>
+		</div>
+	</main>
+	<th:block th:insert="/common/commons::footer"></th:block>
+</body>
+<script type="text/javascript">
+$(function(){
+	pageLoading();
+});
+
+function pageLoading(){
+	$(".tap-navi button").eq(0).click();
+}
+$(".tap-navi button").click(function(){
+	var page=$(this).val();
+	$.ajax({
+		type: "get" ,
+		url: "/board/mymenu/"+page,
+		dataType: "html",
+		success:function(data){
+			//alert("성공");
+			$("#myContent").html(data);}
+		,error : function(){ alert("에러 발생");}
+		
+	});
+});
+</script>
+</html>

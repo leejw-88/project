@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<ul class="flex">
+		<li>도서명</li>
+		<li>저자</li>
+		<li>출판사</li>
+		<li>이미지</li>	
+	</ul>
+	<ul>
+		<li><img src="">
+			<ol th:each="dto:${list}" class="flex">
+				<li th:utext="${dto.title}"></li>
+				<li th:text="${dto.author}"></li>
+				<li th:text="${dto.publisher}"></li>
+				<img th:src="${dto.image}" />
+			</ol>
+		</li>
+	</ul>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<ul class="flex">
+	<li>상품번호</li>
+	<li>이미지</li>
+	<li>상품제목</li>
+	<li>판매가</li>
+	<li>할인율</li>
+	<li>할인가격</li>
+	<li>실판매가격</li>
+	<li>재고</li>
+</ul>
+<ul  class="flex" th:each="dto : ${list}">
+	<li th:text="${dto.no}">상품번호</li>
+	<li>준비중<!-- <img th:src="${dto.fileUrl + dto.fileName}" width="200px" > --></li>
+	<li th:text="${dto.title}">상품제목</li>
+	<li th:text="${dto.fixedPrice}">판매가</li>
+	<li><span th:text="${dto.saleRate}">할인율</span>%</li>
+	<li th:text="${dto.salePrice}">할인가격</li>
+	<li th:text="${dto.fixedPrice-dto.salePrice}">실판매가격</li>							
+	<li th:text="${dto.stock}">재고</li>							
+</ul>
+</html>

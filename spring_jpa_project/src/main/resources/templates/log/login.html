@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="/common/commons::head"></th:block>
+	<link rel="stylesheet" href="/css/log/login.css">
+</head>
+<body>
+	<!-- header영역 -->
+	<th:block th:insert="/common/commons::header"></th:block>
+	<main>
+		<h1>로그인페이지</h1>
+		<div class="form-warp">
+			<!-- 회원정보 네비 -->
+			<section id="left-content">
+				<div><span>회원정보</span></div>
+				<ul class="snb">
+					<li><a href="/log/login">로그인</a></li>
+					<li><a href="/log/signup">회원가입</a></li>
+				</ul>
+			</section>
+			<!-- 메인 컨텐츠 -->
+			<section id="main-content">
+				<p>로그인</p>
+				<!-- 로그인 네비영역 -->
+				<div class="navi">
+					<a href="/"><!-- 홈 바로가기 이미지 --></a>
+					<span>회원정보</span>
+					<strong>로그인</strong>
+				</div>
+				
+				<div class="member-wrap">
+					<p class="member-p1">회원 로그인</p>
+					<p class="member-p2"><span>회원가입하신 분은 아이디와 비밀번호를 입력하신 후 로그인하세요.</span></p>
+					<div class="login-form">
+						<ul>
+							<li class="login-main">
+								<div id="login-img"><img alt="login-img" src="/images/img_login.png"></div>
+								<form action="/member/login" id="loginForm" method="post">
+									<ul>
+										<li class="login-area">
+											<div>
+												<input type="text" name="email" placeholder="이메일">
+												<input type="password" name="pass" placeholder="비밀번호">
+											</div>
+											<button type="submit">로그인</button> 
+										</li>
+									</ul>
+									<ul>
+										<li class="check-area">
+											<span><a href="#">아이디 찾기</a></span>
+											<span><a href="#">비밀번호 재설정</a></span>
+											<span><a href="/signup/signup">회원가입</a></span>
+										</li>
+									</ul>
+								</form>
+							</li>
+							<li class="login-lower">
+								<p>로그인이 안되시는 경우 한/영 키와 Caps Lock 키가 눌러져 있지 않은지 확인하세요.</p>
+								<p>계속해서 로그인이 안되시는 경우 관리자에게 문의하시기 바랍니다.</p>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div>
+					<p class="welcome" th:if="${welcome}">[[${welcome}]]</p>
+					<p class="login-Err" th:if="${loginErr}">[[${loginErr}]]</p>
+				</div>
+			</section>
+		</div>
+	</main>
+	<!-- footer영역 -->
+	<th:block th:insert="/common/commons::footer"></th:block>
+</body>
+</html>

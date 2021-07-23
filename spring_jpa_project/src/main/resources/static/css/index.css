@@ -1,0 +1,231 @@
+@charset "UTF-8";
+main{
+	width: 1200px;
+	margin: 0 auto;
+	padding-bottom: 20px;
+	background-color:  #fff;
+/* 	background-color: #e9e9e9; */
+	/* overflow: hidden; */
+}
+/*  이미지 슬라이더 */
+#booksList{
+	margin:20px auto;
+	position: relative;
+	overflow: hidden;
+	width: 220px;
+	height: 300px;
+}
+#booksList>div{
+	position: relative;
+
+}
+#booksList img{
+	position:absolute;
+	left: 0;
+	top: 0;	
+	z-index: 30;
+}
+
+
+/* ///////////////////////// */
+.book_wrap{
+	height: 300px;
+	margin: 40px 20px 50px;
+}
+.book_img img{
+	border: none;
+	display: inline-block;
+	width: 220px;
+	height: 300px;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+.book_content{
+	font-size: 12px;
+}
+
+
+
+
+.divWrap>div{
+	width: 220px !important;
+	height: 50px !important;
+	background-size: contain !important;
+	background-position: right !important;
+}
+.divWrap>div>p{
+	width: 150px !important;
+	height:50px !important;
+	line-height:50px !important;
+	font-size: 14px !important;
+}
+
+/* /////// 공지사항,묻고답하기 ////////////////////////// */
+.idxTop{
+	border-radius: 8px;
+	height: 300px;
+	margin: 30px 30px;
+	border: none;
+	background-color: #00273a;
+}
+.idxTop>.wrap ul{
+	border-radius: 8px;
+	width: 400px;
+	height: 250px;
+	margin: 25px 50px;
+	background-color: #fff;
+}
+/* //////// 도서감상문,희망도서 ///////////////////// */
+.idxBottom{
+	border-radius: 8px;
+	height: 300px;
+	margin: 30px 30px;
+	border: none;
+	background-color: #1a273a;
+}
+.idxBottom>.wrap>ul{
+	border-radius: 8px;
+	width: 400px;
+	height: 250px;
+	margin: 25px ;
+	background-color: #fff;
+}
+
+
+/* 게시판 공통 */
+.divWrap{
+	display: none;
+}
+#btnWrite{
+	display: none;
+}
+#pagging>button{
+	display: none;
+}
+#ptag{
+	color: #00529c;
+	font-size: 18px;
+	font-weight: 700;
+	margin: 10px 30px;
+}
+.noticeWrap,.qnaWrap,
+.bookReviewWrap,.requestedbookWrap{
+	border: 1px solid #a9a9a9 !important;
+}
+
+/* Notice */
+#getNoticeList { pointer-events: none; }
+#noticeWrap ul{
+	margin: 0 !important;
+	width: 380px !important;
+	height: 22px !important;
+	line-height: 22px !important;
+	text-align: center !important;
+	font-size: 2px !important;
+}
+.noticeWrap li{
+	overflow: hidden;
+}
+.noticeNo,.noticeView{
+	width: 30px !important;
+}
+.noticeWriter{
+	width: 60px !important;
+}
+.noticeDate{
+	width: 100px !important;
+}
+.noticeTit{
+	width: 160px !important;
+}
+
+/* Qna */
+#getQnaList { pointer-events: none; }
+#qnaWrap ul{
+	margin: 0 !important;
+	width: 380px !important;
+	height: 22px !important;
+	line-height: 22px !important;
+	text-align: center !important;
+	font-size: 2px !important;
+}
+.qnaWrap li{
+	overflow: hidden;
+}
+.qnaNo,.qnaView{
+	width: 30px !important;
+}
+.qnaWriter{
+	width: 100px !important;
+}
+.qnaDate{
+	width: 100px !important;
+}
+.qnaTit{
+	width: 120px !important;
+}
+
+/* BookReview */
+#getBookReviewList { pointer-events: none; }
+#bookReviewWrap ul{
+	margin: 0 !important;
+	width: 380px !important;
+	height: 22px !important;
+	line-height: 22px !important;
+	text-align: center !important;
+	font-size: 2px !important;
+}
+.bookReviewWrap li{
+	overflow: hidden;
+}
+.bookReviewNo{
+	width: 30px !important;
+}
+.bookReviewbookName{
+	width: 160px !important;
+}
+.bookReviewWriter,
+.bookReviewDate{
+	width: 100px !important;
+}
+.bookReviewTit{
+	width:80px !important;
+}
+.bookReviewView{
+	width: 60px !important;
+}
+
+
+/* RequestedBook */
+#getRequestedBookList { pointer-events: none; }
+#requestedbookWrap ul{
+	margin: 0 10xp !important;
+	width: 380px !important;
+	height: 22px !important;
+	line-height: 22px !important;
+	text-align: center !important;
+	font-size: 2px !important;
+}
+.requestedbookWrap li{
+	overflow: hidden;
+}
+.requestedbookNo{
+	width: 30px !important;
+}
+.requestedbookAuthor,
+.requestedbookPublisher,
+.requestedbookDate{
+	font-size: 2px !important;
+	width: 100px !important;
+}
+.requestedbookWriter{
+	font-size: 2px !important;
+	width: 40px !important;
+}
+.requestedbookTit{
+	font-size: 2px !important;
+	width: 120px !important;
+}
+
+
+

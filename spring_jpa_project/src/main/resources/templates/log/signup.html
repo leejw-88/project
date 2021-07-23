@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:include="/common/commons::head"></th:block>
+	<link rel="stylesheet" href="/css/log/signup.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<!-- header영역 고정 -->
+<th:block th:insert="/common/commons::header"></th:block>
+<main>
+<div class="signup-wrap">
+	<section id="left-content">
+		<div><span>회원정보</span></div>
+		<ul class="snb">
+			<li><a sec:authorize="isAnonymous()" href="/log/login">로그인</a></li>
+			<li><a href="/log/signup">회원가입</a></li>
+		</ul>
+	</section>
+	<section id="signup">
+		<h1>회원가입페이지</h1>
+		<div class="signup_top">
+			<!-- 페이지상단 -->
+			<ul>
+				<li>회원가입</li>
+				<!-- 회원가입 네비영역 -->
+				<li class="navi">
+					<a href="/"><!-- 홈 바로가기 이미지 --></a>
+					<span>회원정보</span>
+					<strong>회원가입</strong>
+				</li>
+			</ul>
+		</div>
+		<div class="signup_form">
+			<!-- form 태그영역 -->
+			
+			<form name="joinform" action="/member/signup" method="post">
+				<!-- 회원정보입력 -->
+				<p class="subtitle"><span class="sub-img1"></span>필수입력사항<span class="asterisk">*</span></p>
+				<!-- 테이블 구성1 -->
+				<table class="join_write" summary="회원정보에 필요한 필수입력사항에 대한 작성폼입니다.">
+					<caption class="hide">필수입력사항 입력</caption>
+					<!-- 테이블 영역 비율조정 -->
+					<colgroup>
+						<col width="17%" />
+						<col width="*" />
+					</colgroup>
+					<!-- 테이블바디 영역-->
+					<tbody>					
+						<tr>
+							<th scope="row">이메일<span class="asterisk" title="필수">*</span></th>
+							<td><input type="text" id="email" size="20" maxlength="20" name="email" value="" title="이메일 입력" />	<span id="id-msg"></span>						
+						</tr>	
+						<tr>
+							<th scope="row">비밀번호<span class="asterisk" title="필수">*</span></th>
+							<td><input type="password" id="password" size="20" maxlength="35" name="password" value="" title="비밀번호 입력" /> 영문, 숫자, 특수문자(~!@#$%^&*+=_-)의 조합, 8자 이상 20자 이하</td>
+						</tr>
+						<tr>
+							<th scope="row">비밀번호확인<span class="asterisk" title="필수">*</span></th>
+							<td><input type="password" id="passwordPin" size="20" maxlength="35" name="passwordPin" value="" title="비밀번호확인 입력" /></td>
+						</tr>
+						<tr>
+							<th scope="row">회원성명</th>
+							<td><input type="text" id="name" size="20" maxlength="20" name="name" value="" title="이름 입력" />
+						</tr>		
+						<tr>
+							<th scope="row">휴대폰번호</th>
+							<td><input type="text" id="phone" size="20" maxlength="20" name="phone" value="" title="휴대폰번호 입력" /> - 없이 숫자만 입력 <span id="phon-msg"></span>
+						</tr>
+													
+					</tbody>
+				</table>
+				<!-- 정보수신동의 -->
+				<p class="subtitle"><span class="sub-img2"></span>정보수신 동의</p>
+				<p class="consent-p">회원님께 정보를 제공하기 위한 정보수신 동의 절차입니다.</p>
+				<!-- 테이블 구성2 -->
+				<table class="consent" summary="회원 정보 제공을 위한 정보수신 동의에 대한 작성폼입니다.">
+					<caption class="hide">정보수신 동의 여부 작성</caption>
+					<!-- 테이블 영역 비율조정 -->
+					<colgroup>
+						<col width="20%" />
+						<col width="*" />
+					</colgroup>
+					<thead>
+						<tr>
+							<th scope="col">제공 서비스</th>
+							<th scope="col" class="none">정보수신 동의 절차</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>DM 발송</td>
+							<td class="none">메일을 받아보시겠습니까? <input type="radio" id="rdoNEWS_LTTR_RCV_F_CD1" name="NEWS_LTTR_RCV_F_CD" value="0" class="none" title="동의" /> <label for="rdoNEWS_LTTR_RCV_F_CD1">동의</label> <input type="radio" id="rdoNEWS_LTTR_RCV_F_CD2" name="NEWS_LTTR_RCV_F_CD" value="1" class="none" checked="checked" title="동의하지 않음" /> <label for="rdoNEWS_LTTR_RCV_F_CD2">동의하지 않음</label></td>
+						</tr>
+						<tr>
+							<td>SMS 발송</td>
+							<td class="none">SMS를 받아보시겠습니까? <input type="radio" id="rdoSMS_SND_AGM_F_CD1" name="SMS_SND_AGM_F_CD" value="0" class="none" title="동의" /> <label for="rdoSMS_SND_AGM_F_CD1">동의</label> <input type="radio" id="rdoSMS_SND_AGM_F_CD2" name="SMS_SND_AGM_F_CD" value="1" class="none" checked="checked" title="동의하지 않음" /> <label for="rdoSMS_SND_AGM_F_CD2">동의하지 않음</label></td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- 확인 취소버튼 -->
+				<div class="form_btn"> 
+					<div class="btn-wrap">
+						<ul>
+							<!-- 확인버튼 -->
+							<li><button id="joinformCheck" type="button" class="btn ok">확인</button></li>
+							<!-- 취소버튼 -->							
+							<li><a href="/log/signup"><input class="btn cancel" type="button" value="취소"></a></li>							
+						</ul>
+					</div>
+				</div>
+			</form>
+		</div>
+	</section>
+</div>
+</main>
+<!-- footer영역 고정 -->
+<th:block th:insert="/common/commons::footer"></th:block>
+</body>
+<script type="text/javascript">
+$(function(){
+	$("#email").keyup(function(){//이메일 입력값 체크
+		var inputId=$(this).val().trim();
+		if(inputId.length<4){//입력된값 길이정보
+			$("#id-msg").text("*이메일은 최소 4자리이상 이어야 합니다.");
+			$("#id-msg").css("color","red");
+		}else{
+			//허용되는 길이-중복체크
+			$.ajax({
+				url:"/member/check",
+				data:{id:inputId},
+				type:"post",
+				success: function(result){
+					if(result){
+						$("#id-msg").text("*사용가능한 email입니다");
+						$("#id-msg").css("color","red");
+					}else{
+						$("#id-msg").text("*사용할수 없는 email입니다");
+						$("#id-msg").css("color","red");
+					}
+				}
+			});
+		}
+	});
+	$("#phone").keyup(function(){//핸드폰번호 입력값체크
+		var reg = /^[0-9]+/g;
+		if(!reg.test(phone.value)){
+			$("#phon-msg").text("*전화번호는 숫자만 입력할 수 있습니다.");
+			$("#phon-msg").css("color","red");
+			phone.focus();
+		}else{
+			$("#phon-msg").text("");
+		}
+	});
+	
+	$("#joinformCheck").click(joinformCheck);//유효성체크
+});
+	function joinformCheck(){
+		var email = document.getElementById("email");
+		var password = document.getElementById("password");
+		var passwordPin = document.getElementById("passwordPin");
+		var name = document.getElementById("name");
+		var phone = document.getElementById("phone");
+		
+		if(email.value ==""){//해당 입력값이 없을경우
+			alert("이메일을 입력하세요.");//메세지 띄움
+			email.focus();//커서가깜빡임
+			return false;//반환하는값 없음 코드진행 멈춤
+		}
+		if(password.value ==""){//해당 입력값이 없을경우
+			alert("비밀번호를 입력하세요.");
+			password.focus();//커서가깜빡임
+			return false;//반환하는값 없음 코드진행 멈춤
+		}
+		//비밀번호 영문자+숫자+특수문자 조합(8~20자리 입력) 정규식
+		var passwordCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/;
+		if(!passwordCheck.test(password.value)){
+			alert("비밀번호는 영문자+숫자+특수문자 조합으로8~20자리 사용해야 합니다.");
+			password.focus();
+			return false;
+		}
+		if(password.value !== passwordPin.value){
+			alert("비밀번호가 일치하지 않습니다.");
+			password.focus();
+			return false;
+		}
+		//숫자만 입력하는 정규식
+		var reg = /^[0-9]+/g;
+		if(!reg.test(phone.value)){
+			alert("전화번호는 숫자만 입력할 수 있습니다.");
+			phone.focus();
+			return false;
+		}
+		//입력 값 전송
+		document.joinform.submit();
+	}
+</script>
+</html>

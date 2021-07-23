@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="/common/headCom::head"></th:block>
+	<th:block th:include="/common/headCom::tapmenu"></th:block>
+	<script type="text/javascript" th:src="@{/js/tapContent.js}"></script>
+</head>
+<body>
+	<th:block th:insert="/common/commons::header"></th:block>
+	<main>
+		<h1>열린마당 게시판</h1>
+		<div class="content-wrap">
+			<div class="title">
+				<p>열린마당</p>
+			</div>
+			<div class="tap-wrap">
+				<th:block th:insert="/common/tapmenu::tap-tit"></th:block>
+				<nav class="tap-navi">
+					<button type="button" th:value="notice">공지사항</button>
+					<button type="button" th:value="qnaboard">묻고답하기</button>
+					<button type="button" th:value="bookReview">도서감상문</button>
+					<button type="button" th:value="requestedbook">희망도서</button>
+				</nav>
+			</div>
+			<section id="openContent">
+				
+			</section>
+		</div>
+	</main>
+	<th:block th:insert="/common/commons::footer"></th:block>
+</body>
+<script type="text/javascript">
+$(function(){
+	pageLoading();
+});
+function pageLoading(){
+	$(".tap-navi button").eq(0).click();
+}
+var pageNo=1;
+$(".tap-navi button").eq(0).click(function(){
+	$(location).attr("href", "/board/open/notice/"+pageNo);	
+});
+$(".tap-navi button").eq(1).click(function(){
+	$(location).attr("href", "/board/open/qnaboard/"+pageNo);	
+});
+$(".tap-navi button").eq(2).click(function(){
+	$(location).attr("href", "/board/open/bookReview/"+pageNo);	
+});
+$(".tap-navi button").eq(3).click(function(){
+	$(location).attr("href", "/board/open/requestedbook/"+pageNo);	
+});
+
+</script>
+</html>

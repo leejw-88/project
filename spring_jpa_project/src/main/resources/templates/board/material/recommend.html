@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/css/boardcss/material/recommend.css">
+<title>Insert title here</title>
+</head>
+
+<!-- 문화체육관광부 추천도서 http://api.kcisa.kr/openapi/service/rest/meta4/getKCPG0506 서비스키 e162df86-2a29-4b6a-980e-0bb94ced47e8 -->
+<!-- 추천도서연습용1 http://api.kcisa.kr/openapi/service/rest/meta13/getNLSF0401       e5851b95-5107-4f05-a8d8-f17a4ecbda51-->
+<!-- 추천도서연습용2 http://api.kcisa.kr/openapi/service/rest/meta13/getNLKF0201       dec406d9-bd88-489d-9f93-737e59033600-->
+<!-- http://api.kcisa.kr/openapi/service/rest/meta4/getKCPG0506?serviceKey=e162df86-2a29-4b6a-980e-0bb94ced47e8&numOfRows=20&pageNo=1 -->
+<body>
+	<section class="divWrap">
+		<div>
+			<p>추천도서</p>
+		</div>
+	</section>
+	<!-- 목록출력 -->
+	<section id="booksList">
+		
+	</section>
+	<!-- 페이징 버튼처리 -->
+	<section class="flex center">
+		<div id="leftBt"></div>
+		<div id="pagging" class="flex">	</div>
+		<div id="rightBt"></div>
+	</section>
+	
+</body>
+
+<script type="text/javascript">
+
+// 페이지 로딩시 실행하는 함수
+$(function(){
+	var pageNo=1;// 페이지번호 초기화
+	getBookList(pageNo);// 도서목록 출력
+});
+
+// 도서목록 출력함수
+function getBookList(pageNo){
+	var URL="http://api.kcisa.kr/openapi/service/rest/meta4/getKCPG0506";//문화체육관광부 추천도서 api요청주소
+	var serviceKey="e162df86-2a29-4b6a-980e-0bb94ced47e8";//인증키
+	var numOfRows="4";//한페이지에 출력할 목록개수
+	var urls = URL+"?serviceKey="+serviceKey+"&numOfRows="+numOfRows+"&pageNo="+pageNo;
+	$.ajax({
+		url: urls, //통신을 원하는 URL주소를 입력합니다
+		type: 'GET', //통신 방식을 지정합니다
+		dataType: 'xml',//서버로부터 받을 데이터 타입을 입력합니다.
+		success: function (response) { // 통신 성공시 호출해야할 함수
+			xmlParsing(response);//도서페이지 출력함수 호출
+			pagging(response);//페이징처리함수 호출
+		},
+		error: function (xhr, status, msg) { // 통신 실패시 호출해야하는 함수
+		  console.log('상태값 : ' + status + ' Http에러메시지 : ' + msg);
+		}
+	});
+}
+	
+	
+//화면에 도서페이지 출력
+function xmlParsing(data) {
+	var booksList = ``;
+	$(data).find('item').each(function(index, item){//넘어온 xml데이터에서 'item' 인덱스 번호만큼 반복
+		//console.log(item)
+		var _img=$(this).find('referenceIdentifier').text();//이미지
+		if(_img == ''){//등록된 이미지 없을시 noimg이미지 출력
+		var _img="/images/noimg.gif";
+		}
+			booksList += `
+			<div class="book_wrap flex">
+				<div class="book_img">
+					<img src=  ${_img} />
+				</div>
+				<ul class="book_content">
+					<li class="book_tit">
+						<strong>도서명 : </strong>${$(this).find('title').text()}
+					</li>
+					<li class="book_writer">
+						<strong>저자 : </strong>${$(this).find('rights').text()}
+						<strong>출판사 : </strong>${$(this).find('extent').text()}
+					</li>
+					<li class="book_con">
+						<strong>책소개 : </strong>${$(this).find('description').text()}
+					</li>
+				</ul>
+			</div>
+			`;
+		$('#booksList').empty().append(booksList);// booksList 내용이 있으면 id='booksList'로 내용전송
+	});
+}
+	
+var i=0;
+var last= 5;
+var start = 1;
+var pageNo=1;
+//페이징 처리함수 총 페이지 출력
+function pagging(data){
+	var pagging = ``;
+
+	var leftBt = ``;
+	var rightBt = ``;
+	var totalCount=$(data).find('totalCount').text(); // 총게시물수totalCount를 찾아서 text로 저장
+	var numOfRows=$(data).find('numOfRows').text(); // 한페이지 보여줄개수numOfRows를 찾아서 text로 저장
+	var pageNo=$(data).find('pageNo').text();
+	var pageTot= totalCount/numOfRows; // 총페이지수 = 컨텐츠수/한페이지에 출력할수
+	var btsize = 5;//보여질 버튼 최대개수
+	if(start>5||pageNo>5){
+	leftBt += `
+		<button class="prev" type="button"> prev </button>
+	`;}
+	if(pageTot>last){
+	rightBt += `
+		<button class="next" type="button"> next </button>
+	`;	}
+	if(pageNo<=last&&start-pageNo>5){
+		last = start -6;
+		start = start-10;
+		for(i=start; i<=last;i++){
+			if(i<0){i=1; last=5}
+			pagging += `
+			<button type="button" th:value = ${i} > ${i} </button>
+			`;
+		}
+	}else
+	if(pageNo<=last&&start-pageNo<5){
+		start = last -4;
+		for(i=start; i<=last;i++){
+			if(i<0){i=1; last=5}
+			pagging += `
+			<button type="button" th:value = ${i} > ${i} </button>
+			`;
+		}
+	}	
+	if(last<pageNo){
+		start = last + 1;
+		last = start +4;
+		for(start; start<=last;start++){
+			pagging += `
+			<button type="button" th:value = ${start} > ${start} </button>
+			`;	
+		}
+	}
+	$('#pagging').empty().append(pagging); // pagging 내용이 있으면 id='pagging'로 내용전송
+	$('#leftBt').empty().append(leftBt); // leftBt 내용이 있으면 id='leftBt'로 내용전송
+	$('#rightBt').empty().append(rightBt); // rightBt 내용이 있으면 id='rightBt'로 내용전송
+	
+	$('.next').click(addNo);
+	$('.prev').click(subNo);
+	
+	$("#pagging button").click(function(){// 버튼 클릭시 인덱스번호 받아와서 페이지이동
+		var idx=$(this).text();
+		var pageNo=idx; //현제페이지pageNo
+		getBookList(pageNo);
+	});
+}
+function addNo(){
+	pageNo = last +1;
+	getBookList(pageNo);
+}
+function subNo(){
+	pageNo = start -10;
+	getBookList(pageNo);
+}
+
+
+	
+</script>
+
+</html>

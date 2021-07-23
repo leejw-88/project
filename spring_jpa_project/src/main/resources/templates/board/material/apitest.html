@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+	<th:block th:include="/common/commons::head"></th:block>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<title>Insert title here</title>
+	<script type="text/javascript">
+		$(function(){
+			$("#btn-daily").click(getDailyList);
+		});
+		function getDailyList(){
+			$.ajax({
+				url:"/movie/daily",
+				data:{targetDt: $("#targetDt").val(),itemPerPage: $("#itemPerPage").val()},
+				success:function(result){
+					$("#result").html(result);
+				}
+			});
+		}
+		
+		
+		$(function(){
+			$("#btn-naverBookSearch").click(getBookSearchList);
+		});
+		function getBookSearchList(){
+			var search=$("#searchText").val();
+			$.ajax({
+				url:"/board/naverBookSearch",//요청주소
+				data:{search : search},//key("문자열") : value
+				success:function(result){
+					$("#result2").html(result);
+				}
+			});
+		}
+	</script>
+	<style type="text/css">
+		main>.wrap{
+			width: 980px;
+			margin: 0 auto;
+		}
+		#result ul li{
+			flex: 1;
+			border: 1px solid #e9e9e9;
+		}
+	</style>
+</head>
+<body>
+	<th:block th:insert="/common/commons::header"></th:block>
+	<main>
+		<h1>영화정보</h1>
+		<div class="wrap">
+			
+			<div>
+				<p>영화진흥위원회</p>
+				<input type="text" id="targetDt" placeholder="예:20210101-숫자만 넣어주세요">
+				<input type="text" id="itemPerPage" placeholder="출력할 영화개수-숫자 최대:10">
+				<button id="btn-daily">검색</button>
+			</div>
+			<div id="result"></div>
+		</div>
+		<div class="wrap">
+			<div>
+				<p>네이버 도서검색</p>
+				<input type="text" id="searchText" placeholder="도서명을 입력하세요">
+				<button id="btn-naverBookSearch">검색</button>
+			</div>
+			<div id="result2"></div>
+		</div>
+	</main>
+	<th:block th:insert="/common/commons::footer"></th:block>
+</body>
+</html>

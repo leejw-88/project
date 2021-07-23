@@ -1,0 +1,217 @@
+@charset "UTF-8";
+
+.signup-wrap{
+	width: 1000px; 
+	margin: 0 auto;
+}
+#signup{
+	display: inline-block;
+	color: #666;
+}
+/* /////////////  페이지 상단 /////////////// */
+.signup_top>ul>li:first-child {
+	font-size: 25px;
+	padding: 60px 0 13px;
+}
+.signup_top>ul>li:last-child {
+	padding-bottom: 20px;
+	border-bottom: 1px solid #e1e1e1;
+}
+.signup_top>ul>li.navi{
+	margin-top: 15px;
+	padding-bottom: 13px;
+
+}
+.signup_top>ul>li.navi>a{
+	position: relative;
+	margin: 0 3px;
+	top: 3px;
+	display: inline-block;
+	width: 16px;
+	height: 18px;
+	background-image: url("/images/ico_home.png");
+	background-repeat: no-repeat;
+}
+.signup_top>ul>li.navi>span:before,
+.signup_top>ul>li.navi>strong:before{
+	content: "> ";
+	font-weight: normal;
+}
+/* /////// 회원정보 네비 ////////// */
+#left-content {
+	position: relative;
+	z-index: 10;
+	padding-top: 40px;
+    float: left;
+    width: 200px;
+    margin-right: 40px;
+}
+#left-content>div{
+	height: 100px;
+    margin-bottom: 5px;
+    font-size: 21px;
+    color: #fff;
+    line-height: 100px;
+	background-color: rgb(0, 64, 128);
+    text-align: center;
+    border-radius: 20px 0 0 0;
+}
+
+#left-content>.snb>li a{
+	margin-top: 3px;
+    display: block;
+    padding-left: 15px;
+    line-height: 44px;
+    color: #111;
+    font-size: 14px;
+    border: 1px solid #dedede;
+    background-color: #fff;
+}
+#left-content>.snb>li:nth-child(2) a{
+	font-weight: 600;
+    color: #fff;
+    background-color: #8a94a8;
+}
+
+/* ///////// form 태그영역 ///////////////// */
+
+/* ////// 회원정보입력 영역 ///////////////////// */
+.signup_form>form>p.subtitle{
+	width: 100%;
+	height: 30px;
+	margin: 10px 0;
+	line-height: 30px;
+	font-size: 17px;
+	font-weight: 700;
+	color: #004687;
+}
+/* subtitle 이미지 */
+.signup_form>form>p>span.sub-img1{
+	display: inline-block;
+	width: 16px;
+	height: 12px;
+    background-image: url("/images/bullet_sky.gif");
+	background-repeat: no-repeat;
+}
+/* /////////// 테이블구성1 영역 /////////////////// */
+table.join_write {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: solid 2px #6481ae;
+    border-bottom: solid 1px #cdd6e3;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #666;
+}
+/* th 영역 */
+table.join_write th {
+   	font-weight: 700;
+    height: 37px;
+	line-height: 37px;
+    border-bottom: solid 1px #cdd6e3;
+    background-color: #edf2f7;
+}
+/* td 영역 */
+table.join_write td {
+    height: 37px;
+	line-height: 37px;
+    border-bottom: solid 1px #e7e7e7;
+    padding-left: 10px;
+}
+table.join_write td input {
+    border-collapse: collapse;
+    border: solid 1px #b7b6b6;
+    height: 18px;
+    color: #666;
+    padding-left: 5px;
+    cursor: pointer;
+}
+/* 중복확인 버튼 */
+.overlap-btn{
+	width: 55px;
+	height: 19px;
+	font-size: 10px;
+	color: #666;
+	cursor: pointer;
+	margin-left: 5px;
+}
+/* 선택 버튼 */
+select {
+    border: 1px solid #b7b6b6;
+    color: #666666;
+    line-height: 37px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+/* ////// 정보수신동의 영역 ///////////////////// */
+/* subtitle 이미지 */
+.signup_form>form>p>span.sub-img2{
+	display: inline-block;
+	width: 16px;
+	height: 12px;
+    background-image: url("/images/bullet.gif");
+	background-repeat: no-repeat;
+}
+.signup_form>form>p.consent-p{
+	font-size: 14px;
+	padding-bottom: 15px;
+}
+/* ////// 테이블구성2 영역 ///////////////////// */
+table.consent {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: solid 2px #6481ae;
+    border-bottom: solid 1px #cdd6e3;
+    margin-bottom: 10px;
+    font-size: 13px;
+    height: 40px;
+	line-height: 40px;
+	color: #666666;
+}
+table.consent th {
+    border-bottom: solid 1px #cdd6e3;
+    border-right: solid 1px #cdd6e3;
+    background-color: #edf2f7;
+    font-weight: 700;
+}
+table.consent th.none{
+	border-right: none;
+}
+table.consent td {
+    border-right: solid 1px #cdd6e3;
+    border-bottom: solid 1px #cdd6e3;
+    text-align: center;
+}
+table.consent td.none{
+	border-right: none;
+}
+table.consent td.none input{
+	cursor: pointer;
+}
+.btn-wrap>ul{
+	width: 100%;
+	height: 27px;
+	display: flex;
+	justify-content: center;
+	padding-bottom: 50px;
+}
+.btn-wrap>ul>li{
+	margin: 0 5px;
+}
+/* 확인 취소버튼 */
+.btn{
+	width: 68px;
+	height: 27px;
+	color: #fff;
+	border-style: none;
+	border-radius: 3px;
+	cursor: pointer;
+}
+/* 확인버튼 */
+.ok{
+	background-color: #2b52a9;
+}
+/* 취소버튼 */
+.cancel{
+	background-color: #a9a9a9;
+}

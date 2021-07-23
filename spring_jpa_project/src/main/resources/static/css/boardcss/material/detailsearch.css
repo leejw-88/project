@@ -1,0 +1,84 @@
+@charset "UTF-8";
+.divWrap>div{
+	height: 105px;
+	line-height: 105px;
+	font-size: 30px;
+	font-weight: 700;
+	color: #00529c;
+	padding-left: 30px;
+	background-image: url("/images/sub5_top.gif");
+	background-repeat: no-repeat;
+	background-position: right;
+	border-bottom: 2px solid #222;
+}
+/* //////////////////////////////////////////////// */
+.searchWrap{
+	border-bottom: 2px solid #222;
+}
+.searchWrap>div{
+	width: 963px;
+	height: 100px;
+	margin: 0 auto;
+	text-align: center;
+}
+.searchWrap>div>p{
+	color: #00529c;
+	font-size: 20px;
+	font-weight: 700;
+	margin: 10px 0;
+	padding: 10px;
+	border: 1px solid #e9e9e9; 
+	border-radius: 5px;
+	background-color: #f5f5f5;
+}
+.searchWrap>div>input{
+	color: #00529c;
+	background-color: rgb(232, 240, 254);
+	border: 1px solid #00529c;
+	border-radius: 10px;
+	padding: 5px;
+}
+.searchWrap>div>button{
+	color: #fff;
+	background-color: #00529c;
+	border: 1px solid #00529c;
+	border-radius: 10px;
+	padding: 5px;
+	position: relative;
+	top: 2px;
+    
+}
+
+/* //////////////////////////////////////////////// */
+.book_wrap{
+	width: 963px;
+	height: 195px;
+	border-bottom: 1px solid #a9a9a9;
+}
+.book_content{
+	margin-left: 20px;
+	margin-top: 10px;
+}
+.book_content li{
+	font-size: 13px;
+	line-height: 1.5em;
+	margin-top: 10px;
+}
+.book_img img{
+	margin: 20px 30px;
+	width: 107px;
+	height: 150px;
+}
+.book_con{
+	width: 600px;
+	height: 78px;
+	margin: 20 0px;
+	overflow: hidden; 
+	text-overflow: ellipsis; /* 넘치는 글자 생략 */
+	display: -webkit-box; 
+	-webkit-line-clamp: 4; /* 라인수 */ 
+	-webkit-box-orient: vertical; 
+	word-wrap:break-word;
+
+
+}

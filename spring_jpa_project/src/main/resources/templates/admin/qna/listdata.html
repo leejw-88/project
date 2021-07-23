@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<p th:if="${#lists.isEmpty(qnaList)}">
+	게시글이 존재 하지 않습니다.
+</p>
+
+<dl th:if="${not #lists.isEmpty(qnaList)}" th:each="dto : ${qnaList}">
+	<dt>
+		번호:<span th:text="${dto.no}">No.</span>
+		제목:<span th:text="${dto.title}">제목</span>
+		작성자:<span th:text="${dto.writer}">작성자</span>
+		시간:<span th:text="${#temporals.format(dto.createdDate, 'yyyy-MM-dd HH:mm')}">시간</span>
+		조회수:<span th:text="${dto.view}">조회수</span>
+	</dt>
+	<dd>
+		내용:<span th:text="${dto.content}"></span><br>
+	</dd>
+	<dd>
+		<hr>
+		<input type="hidden"  class="no" th:value="${dto.no}"/>
+		제목 :<input type="text" class="admTitle" th:value="${dto.title}" disabled="disabled" /><br>
+		내용 :<input type="text" class="admContent" th:value="${dto.content}" disabled="disabled" />
+		<hr>
+		<button class="btn-edit">수정</button>
+		<span class="btn-edit-able" style="display: none;">
+			<button class="btn-edit-done">수정완료</button>
+			<button class="btn-edit-cancle">수정취소</button>
+		</span>
+		<button class="btn-del">삭제</button>
+		<input type="hidden" th:value="${dto.no}" />
+	</dd>
+</dl>
+<div class="flex" id="pagging" th:if="${pagetotal>0}">
+	<button th:each="pno : ${#numbers.sequence(1,pagetotal)}">
+		[[${pno}]]
+	</button>
+</div>
+<script type="text/javascript">
+
+$(function(){
+	//삭제버튼클릭시
+	$(".btn-del").click(function(){
+		var _no=$(this).next().val(); //삭제버튼 뒤에있는 input태그 value
+		$.ajax({
+			url:"/admin/qna/list/"+_no,
+			type: "delete",
+			success:function(){
+				getQnaList(div);
+			}
+		});
+	});
+	//수정버튼-->수정할수있도록 활성화
+	$(".btn-edit").click(function(){
+		$(this).hide();
+		$(this).next().show();
+		$(this).parents("dl").find("input:disabled").removeAttr("disabled");
+	});
+
+	//수정취소-->활성화 해제
+	$(".btn-edit-cancle").click(function(){
+		$(this).parent().hide();
+		$(this).parent().prev().show();
+		//$(this).parents("dd").find(".btn-edit").show();
+		$(this).parents("dl").find("input[type=text]").attr("disabled",true);
+	});
+	//페이징처리
+	$("#pagging>button").click(function(){
+		pageNo=$(this).text().trim();//공백삭제
+		getQnaList(div);
+	});
+});
+$(function(){
+	//수정완료버튼 클릭시 DB수정처리
+	$(".btn-edit-done").click(function(){
+		//수정될 제목, 내용, 수정될대상 pk값
+		var title=$(this).parents("dl").find(".admTitle").val().trim();
+		var content=$(this).parents("dl").find(".admContent").val().trim();
+		var no=$(this).parents("dl").find(".no").val().trim();
+		$.ajax({
+			url :"/admin/qna/list/"+no,
+			data :{	"title":title, //key : value
+					"content":content },
+			type :"put",
+			success:function(){
+				pageNo=1;
+				getQnaList(div);
+			}
+		});
+		
+		
+	});
+});
+
+</script>
+
+
+
+</html>

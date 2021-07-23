@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<ul class="flex">
+		<li>순위</li>
+		<li>영화명</li>
+		<li>개봉일</li>
+		<li>누적관객수</li>	
+	</ul>
+	<ul th:each="dto:${list}" class="flex">
+		<li th:text="${dto.rank}"></li>
+		<li th:text="${dto.movieNm}"></li>
+		<li th:text="${dto.openDt}"></li>
+		<li th:text="${dto.audiAcc}"></li>	
+	</ul>
+</html>

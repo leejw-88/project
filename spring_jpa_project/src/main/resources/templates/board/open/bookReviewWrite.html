@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="https//www.thymeleaf.org">
+<head>
+<th:block th:include="/common/commons::head"></th:block>
+<link rel="stylesheet" href="/css/boardcss/open/write/bookreview.css">
+	<style type="text/css">
+		#file-input{
+			display: none;
+		}
+		#file-label{
+			display: inline-block;
+			width: 150px;
+			height: 214px;
+			border: 2px dashed aqua;
+			color: aqua;
+			text-align: center;
+			line-height: 214px;
+			font-size: 24px;
+			font-weight: 700;
+			background-color: rgba(0,255,255,0.05);
+			background-repeat:no-repeat;
+			background-position: center;
+			background-size: cover;  
+		}
+	</style>
+</head>
+<script type="text/javascript">
+	$(function(){
+		//파일이 적용될때(파일의 value가 변경될때마다)- 이미지를 업로드
+		$("#file-input").change(function(){
+			var file=$("#file-input")[0].files[0];
+			var formData=new FormData();
+			formData.append("file", file);
+			//console.log(file);
+			
+			$.ajax({
+				url:"/board/bookReview/temp",
+				data: formData,
+				type:"post",
+				contentType: false,
+				processData: false,
+				success:function(result){
+					if(result==null){
+						alert("파일 용량 초과!");
+					}else{
+						$("#file-label").css("background-image","url("+result+")");
+					}
+					
+				}
+			});
+		});
+	});
+</script>
+<body>
+	<th:block th:insert="/common/commons::header"></th:block>
+	<main>
+		<section id="fromWrap">
+			<form action="/board/bookReview/write" method="post" enctype="multipart/form-data">
+				<!-- ContentsWrap -->
+				<div id="contentsWrap">
+					<!-- Title -->
+					<div>
+						<p id="title_p">도서감상문</p>
+					</div>
+					<!-- //Title -->
+					<!-- Contents -->
+					<div id="contents">
+						<!-- write -->
+						<h1>도서감상문 작성하기</h1>
+						<ul class="reviw-write flex">
+							<li class="con_book">
+								<span>도서명</span>
+								<input id="bookName" name="bookName" type="text" />
+							</li>
+							<li class="con_author">
+								<span>저자</span>
+								<input id="author" name="author" type="text" />
+							<li>
+							
+						</ul>
+						<ul class="reviw-write flex">
+							<li class="con_tit">
+								<span>제목</span>
+								<input id="title" name="title" type="text" />		
+							</li>
+							<li class="con_writer">
+								<span>작성자</span>
+								<input id="writer" name="writer" type="text" />		
+							</li>
+						</ul>
+						<ul class="reviw_content flex">	
+							<li class="con_img">
+								<!-- 이미지등록 -->
+								<label for="file-input" id="file-label">이미지등록</label>
+								<input type="file" name="file" id="file-input">
+							</li>	
+							<li class="con_text">
+								<textarea id="content" name="content" title="내용을 작성하세요." rows="10" cols="100"></textarea>
+							</li>
+						</ul>
+						<!-- //write -->
+
+						<!-- button -->
+						<div class="board_bottom flex center">
+							<p class="rigth">
+								<span class="btnOk">
+									<button type="submit">등록</button>
+								</span> 
+								<span class="btnCancel">
+									<button type="button">취소</button>
+								</span>
+							</p>
+						</div>
+						<!-- //button -->
+					</div>
+					<!-- //Contents -->
+				</div>
+				<!-- //ContentsWrap -->
+			</form>
+		</section>
+	</main>
+	<th:block th:insert="/common/commons::footer"></th:block>
+</body>
+<script type="text/javascript">
+var pageNo=1;
+$(".btnCancel").click(function(){
+	$(location).attr("href", "/board/open/bookReview/"+pageNo);
+});
+</script>
+</html>

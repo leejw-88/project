@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="https//www.thymeleaf.org">
+<head>
+	<th:block th:include="/admin/common::head"/>
+	<style type="text/css">
+
+	</style>
+</head>
+
+<body>
+	<main>
+		<h1>관리자페이지입니다.</h1>
+		<div class="wrap flex">
+			<th:block th:insert="/admin/common::menu"/>
+			<section id="content">
+				<h1>내용</h1>
+				<div class="wrap">
+					<p>카테고리 등록페이지 입니다.</p>
+					<form action="/admin/category" method="post">		
+						<p>
+							카테고리 선택
+						</p>
+						<p>
+							<input type="text" name="fname" placeholder="대분류">
+							<input type="text" name="sname" placeholder="중분류">
+							<input type="text" name="tname" placeholder="소분류">
+							<input type="text" name="dname" placeholder="세분류">
+							<button type="submit">등록</button>
+						</p>
+					</form>
+				</div>
+			</section>
+		</div>
+	</main>
+</body>
+</html>

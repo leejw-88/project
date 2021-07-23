@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="https//www.thymeleaf.org">
+<head>
+	<th:block th:include="/common/commons::head"></th:block>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="/css/boardcss/open/detail/notice.css">
+</head>
+<body>
+<th:block th:insert="/common/commons::header"></th:block>
+
+<h1>공지사항</h1>
+<section class="container">
+	<div>
+		<p>공지사항</p>
+	</div>
+	<ul>
+		<li class="tit">
+			<!-- 제목 -->
+			<span th:text="${dto.title}"></span>
+		</li>
+	</ul>
+	<ul class="flex">
+		<li class="writer">
+			작성자 : <span th:text="${dto.writer}"></span>
+		</li>
+		<li class="date">
+			작성일 : <span th:text="${#temporals.format(dto.createdDate, 'yy-MM-dd HH:mm')}"></span>
+		</li>
+		<li class="view">
+			조회수 : <span th:text="${dto.view}"></span>
+		</li>
+	</ul>
+	<ol class="content">
+		<!-- 내용 -->
+		<li class="noticeContent">
+			<span th:text="${dto.content}"></span>
+		</li>
+	</ol>
+	<ul>
+		<li class="prev">
+			이전글 <span></span>
+		</li>
+	</ul>
+	<ul>
+		<li class="next">
+			다음글 <span></span>
+		</li>
+	</ul>
+    <ol class="flex center">
+		<li class="qnaCon">
+			<button class="btn-del">삭제</button>	
+			<span class="btn-del-able" style="display: none;">
+				<button class="btn-del-done">삭제확인</button>
+				<input type="hidden" th:value="${dto.no}" />
+				<button class="btn-del-cancle">삭제취소</button>
+			</span>
+		</li>	
+	</ol>
+</section>
+<th:block th:insert="/common/commons::footer"></th:block>
+</body>
+<script type="text/javascript">
+//삭제버튼클릭시
+//삭제버튼-->삭제확인 활성화
+$(".btn-del").click(function(){
+	$(this).hide();
+	$(this).next().show();
+});
+//삭제취소-->활성화 해제
+$(".btn-del-cancle").click(function(){
+	$(this).parent().hide();
+	$(this).parent().prev().show();
+});
+
+//삭제확인 
+$(".btn-del-done").click(function(){
+	var _no=$(this).next().val(); //삭제버튼 뒤에있는 input태그 value
+	var page=$(this).val();
+	var pageNo=1;
+	$.ajax({
+		url:"/board/notice/"+_no,
+		type: "delete",
+		success:function(){
+			$(location).attr("href", "/board/open/notice/"+pageNo);
+		}
+	});
+});
+</script>
+</html>

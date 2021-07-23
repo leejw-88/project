@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="/css/boardcss/open/bookreview.css">
+	<th:block th:include="/common/headCom::head"></th:block>
+	<th:block th:include="/common/headCom::tapmenu"></th:block>
+	<script type="text/javascript" th:src="@{/js/tapContent.js}"></script>
+</head>
+<body>
+	<th:block th:insert="/common/commons::header"></th:block>
+	<main>
+		<h1>열린마당 게시판</h1>
+		<div class="content-wrap">
+			<div class="title">
+				<p>열린마당</p>
+			</div>
+			<div class="tap-wrap">
+				<th:block th:insert="/common/tapmenu::tap-tit"></th:block>
+				<nav class="tap-navi">
+					<button type="button" th:value="notice">공지사항</button>
+					<button type="button" th:value="qnaboard">묻고답하기</button>
+					<button type="button" th:value="bookReview">도서감상문</button>
+					<button type="button" th:value="requestedbook">희망도서</button>
+				</nav>
+			</div>
+			<section id="openContent">
+				<section class="divWrap">
+					<div>
+						<p>도서감상문</p>
+					</div>
+				</section>
+					<p th:if="${#lists.isEmpty(bookReviewList)}">
+						게시글이 존재 하지 않습니다.
+					</p>
+				<section id="bookReviewWrap">
+					<h1>도서감상문게시판</h1>
+					<ul class="flex">
+						<li class="bookReviewNo">
+							#
+						</li>
+						<li class="bookReviewbookName">
+							도서명
+						</li>
+						<li class="bookReviewTit">
+							제목
+						</li>
+						<li class="bookReviewWriter">
+							작성자
+						</li>
+						<li class="bookReviewDate">
+							작성일
+						</li>
+						<li class="bookReviewView">
+							조회수
+						</li>
+					</ul>
+				<div class="bookReviewWrap" th:if="${not #lists.isEmpty(bookReviewList)}" th:each="dto : ${bookReviewList}">
+					<ul class="flex">
+						<li class="bookReviewNo">
+							<span th:text="${dto.no}">No.</span>
+						</li>
+						<li class="bookReviewbookName">
+							<span th:text="${dto.bookName}">도서명</span>
+						</li>
+						<li class="bookReviewTit">
+							<span class="bookReview_Tit" th:text="${dto.title}">제목</span>
+							<input type="hidden" th:value="${dto.no}">
+						</li>
+						<li class="bookReviewWriter">
+							<span th:text="${dto.writer}">작성자</span>
+						</li>
+						<li class="bookReviewDate">
+							<span th:text="${#temporals.format(dto.createdDate, 'yy-MM-dd')}">작성일</span>
+						</li>
+						<li class="bookReviewView">
+							<span th:text="${dto.view}">조회수</span>
+						</li>
+					</ul>
+				</div>	
+				</section>
+				<section class="pagging">
+					<div class="flex center" id="pagging" th:if="${pagetotal>0}">
+						<button th:each="pno : ${#numbers.sequence(1,pagetotal)}">
+							[[${pno}]]
+						</button>
+					</div>
+				</section>
+				<section>
+					<button id="btnWrite" type="button">글쓰기</button>
+					
+				</section>
+			</section>
+		</div>
+	</main>
+	<th:block th:insert="/common/commons::footer"></th:block>
+</body>
+<script type="text/javascript">
+
+$(function(){
+	pageLoading();
+	//페이지 리로딩
+	function getTapList(){
+		$(".tap-navi>button").eq(2).click();
+	}
+	//페이징처리
+	$("#pagging>button").click(function(){
+		pageNo=$(this).text().trim();//공백삭제
+		getTapList(pageNo);	
+	});	
+	
+	//글쓰기 페이지 이동
+	$("#btnWrite").click(function() {
+		$(location).attr("href","/board/open/bookReviewWrite");
+	});
+	//디테일 페이지 이동
+	$(".bookReview_Tit").click(function() {
+		var _no=$(this).next().val();
+		$(location).attr("href","/board/reviewDetails/"+_no);
+	});
+	
+});
+function pageLoading(){
+	$(".tap-navi>button").eq(2).css("background-color","#fff");
+}
+var pageNo=1;
+$(".tap-navi button").eq(0).click(function(){
+	$(location).attr("href", "/board/open/notice/"+pageNo);	
+});
+$(".tap-navi button").eq(1).click(function(){
+	$(location).attr("href", "/board/open/qnaboard/"+pageNo);	
+});
+$(".tap-navi button").eq(2).click(function(){
+	$(location).attr("href", "/board/open/bookReview/"+pageNo);	
+});
+$(".tap-navi button").eq(3).click(function(){
+	$(location).attr("href", "/board/open/requestedbook/"+pageNo);	
+});
+
+</script>
+</html>

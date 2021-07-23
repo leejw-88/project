@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/css/boardcss/open/notice.css">
+<th:block th:include="/common/headCom::head"></th:block>
+	<th:block th:include="/common/headCom::tapmenu"></th:block>
+	<script type="text/javascript" th:src="@{/js/tapContent.js}"></script>
+</head>
+<body>
+	<th:block th:insert="/common/commons::header"></th:block>
+	<main>
+
+		<h1>열린마당 게시판</h1>
+		<div class="content-wrap">
+			<div class="title">
+				<p>열린마당</p>
+			</div>
+			<div class="tap-wrap">
+				<th:block th:insert="/common/tapmenu::tap-tit"></th:block>
+				<nav class="tap-navi">
+					<button type="button" th:value="notice">공지사항</button>
+					<button type="button" th:value="qnaboard">묻고답하기</button>
+					<button type="button" th:value="bookReview">도서감상문</button>
+					<button type="button" th:value="requestedbook">희망도서</button>
+				</nav>
+			</div>
+			<section id="openContent">
+				<section class="divWrap">
+					<div>
+						<p>공지사항</p>
+					</div>
+				</section>
+					<p th:if="${#lists.isEmpty(noticeList)}">
+						게시글이 존재 하지 않습니다.
+					</p>
+				<section id="noticeWrap">
+					<h1>공지사항게시판</h1>
+					<ul class="flex">
+						<li class="noticeNo">
+							#
+						</li>
+						<li class="noticeTit">
+							공지사항
+						</li>
+						<li class="noticeWriter">
+							작성자
+						</li>
+						<li class="noticeDate">
+							작성일
+						</li>
+						<li class="noticeView">
+							조회수
+						</li>
+					</ul>
+				<div class="noticeWrap" th:if="${not #lists.isEmpty(noticeList)}" th:each="dto : ${noticeList}">
+					<ul class="flex">
+						<li class="noticeNo">
+							<span th:text="${dto.no}">No.</span>
+						</li>
+						<li class="noticeTit">
+							<span class="notice_tit" th:text="${dto.title}">제목</span>
+							<input type="hidden" th:value="${dto.no}">
+						</li>
+						<li class="noticeWriter">
+							<span th:text="${dto.writer}">작성자</span>
+						</li>
+						<li class="noticeDate">
+							<span th:text="${#temporals.format(dto.createdDate, 'yy-MM-dd')}">작성일</span>
+						</li>
+						<li class="noticeView">
+							<span th:text="${dto.view}">조회수</span>
+						</li>
+					</ul>
+				</div>
+				<div id="noticeDetails">
+				
+				</div>
+				</section>
+				<section class="pagging">
+					<div class="flex center" id="pagging" th:if="${pagetotal>0}">
+						<button th:each="pno : ${#numbers.sequence(1,pagetotal)}">
+							[[${pno}]]
+						</button>
+					</div>
+				</section>
+				<section>
+					<!-- 관리자 권한 있어야 버튼 보이게 설정 -->
+					<button id="btnWrite" type="button" sec:authorize="hasRole('ADMIN')">글쓰기</button>	
+				</section>
+			</section>
+		</div>
+
+	
+	
+	</main>
+	<th:block th:insert="/common/commons::footer"></th:block>
+</body>
+<script type="text/javascript">
+
+$(function(){
+	pageLoading();
+	//페이지 리로딩
+	function getTapList(){
+		$(".tap-navi>button").eq(0).click();
+	}
+	//페이징처리
+	$("#pagging>button").click(function(){
+		pageNo=$(this).text().trim();//공백삭제
+		getTapList(pageNo)
+	});	
+	
+	//글쓰기 페이지 이동
+	$("#btnWrite").click(function() {
+		$(location).attr("href","/board/open/noticeWrite");
+	});
+	//디테일 페이지 이동
+	$(".notice_tit").click(function() {
+		var _no=$(this).next().val();
+		$(location).attr("href","/board/noticeDetails/"+_no);
+	});
+
+
+
+});
+function pageLoading(){
+	$(".tap-navi>button").eq(0).css("background-color","#fff");
+}
+
+var pageNo=1;
+$(".tap-navi button").eq(0).click(function(){
+	$(location).attr("href", "/board/open/notice/"+pageNo);	
+});
+$(".tap-navi button").eq(1).click(function(){
+	$(location).attr("href", "/board/open/qnaboard/"+pageNo);	
+});
+$(".tap-navi button").eq(2).click(function(){
+	$(location).attr("href", "/board/open/bookReview/"+pageNo);	
+});
+$(".tap-navi button").eq(3).click(function(){
+	$(location).attr("href", "/board/open/requestedbook/"+pageNo);	
+});
+
+
+
+</script>
+</html>

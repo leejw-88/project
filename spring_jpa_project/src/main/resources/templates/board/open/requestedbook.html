@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="/css/boardcss/open/requestedbook.css">
+	<th:block th:include="/common/headCom::head"></th:block>
+	<th:block th:include="/common/headCom::tapmenu"></th:block>
+	<script type="text/javascript" th:src="@{/js/tapContent.js}"></script>
+</head>
+<body>
+	<th:block th:insert="/common/commons::header"></th:block>
+	<main>
+		<h1>열린마당 게시판</h1>
+		<div class="content-wrap">
+			<div class="title">
+				<p>열린마당</p>
+			</div>
+			<div class="tap-wrap">
+				<th:block th:insert="/common/tapmenu::tap-tit"></th:block>
+				<nav class="tap-navi">
+					<button type="button" th:value="notice">공지사항</button>
+					<button type="button" th:value="qnaboard">묻고답하기</button>
+					<button type="button" th:value="bookReview">도서감상문</button>
+					<button type="button" th:value="requestedbook">희망도서</button>
+				</nav>
+			</div>
+			<section id="openContent">
+				<section class="divWrap">
+					<div>
+						<p>희망도서</p>
+					</div>
+				</section>
+					<p th:if="${#lists.isEmpty(RequestedBookList)}">
+						게시글이 존재 하지 않습니다.
+					</p>
+				<section id="requestedbookWrap">
+					<h1>희망도서게시판</h1>
+					<ul class="flex">
+						<li class="requestedbookNo">
+							#
+						</li>
+						<li class="requestedbookTit">
+							도서명
+						</li>
+						<li class="requestedbookAuthor">
+							저자
+						</li>
+						<li class="requestedbookPublisher">
+							출판사
+						</li>
+						<li class="requestedbookWriter">
+							신청자
+						</li>
+						<li class="requestedbookDate">
+							신청일
+						</li>
+					</ul>
+				<div class="requestedbookWrap" th:if="${not #lists.isEmpty(RequestedBookList)}" th:each="dto : ${RequestedBookList}">
+					<ul class="flex">
+						<li class="requestedbookNo">
+							<span th:text="${dto.no}">No.</span>
+						</li>
+						<li class="requestedbookTit">
+							<span th:text="${dto.booktit}">도서명</span>
+						</li>
+						<li class="requestedbookAuthor">
+							<span th:text="${dto.author}">저자</span>
+						</li>
+						<li class="requestedbookPublisher">
+							<span th:text="${dto.publisher}">출판사</span>
+						</li>
+						<li class="requestedbookWriter">
+							<span th:text="${dto.writer}">신청자</span>
+						</li>
+						<li class="requestedbookDate">
+							<span th:text="${#temporals.format(dto.createdDate, 'yy-MM-dd')}">신청일</span>
+						</li>
+					</ul>
+				</div>	
+				</section>
+				<section class="pagging">
+					<div class="flex center" id="pagging" th:if="${pagetotal>0}">
+						<button th:each="pno : ${#numbers.sequence(1,pagetotal)}">
+							[[${pno}]]
+						</button>
+					</div>
+				</section>
+				<section>
+					<button id="btnWrite" type="button">글쓰기</button>
+				</section>
+			</section>
+		</div>
+	</main>
+	<th:block th:insert="/common/commons::footer"></th:block>
+</body>
+
+
+<script type="text/javascript">
+//삭제버튼클릭시
+//삭제버튼-->삭제확인 활성화
+$(".btn-del").click(function(){
+	$(this).hide();
+	$(this).next().show();
+});
+//삭제취소-->활성화 해제
+$(".btn-del-cancle").click(function(){
+	$(this).parent().hide();
+	$(this).parent().prev().show();
+});
+//삭제확인 
+$(".btn-del-done").click(function(){
+	var _no=$(this).next().val(); //삭제버튼 뒤에있는 input태그 value
+	var page=$(this).val();
+	var pageNo=1;
+	$.ajax({
+		url:"/board/qna/"+_no,
+		type: "delete",
+		success:function(){
+			$(location).attr("href", "/board/open/qnaboard/"+pageNo);
+		}
+	});
+});
+
+
+
+
+
+$(function(){
+	pageLoading();
+	//페이지 리로딩
+	function getTapList(){
+		$(".tap-navi>button").eq(3).click();
+	}
+	//페이징처리
+	$("#pagging>button").click(function(){
+		pageNo=$(this).text().trim();//공백삭제
+		getTapList(pageNo);	
+	});	
+	
+	//글쓰기 페이지 이동
+	$("#btnWrite").click(function() {
+		$(location).attr("href","/board/open/requestedbookWrite");
+	});
+	
+});
+function pageLoading(){
+	$(".tap-navi>button").eq(3).css("background-color","#fff");
+}
+var pageNo=1;
+$(".tap-navi button").eq(0).click(function(){
+	$(location).attr("href", "/board/open/notice/"+pageNo);	
+});
+$(".tap-navi button").eq(1).click(function(){
+	$(location).attr("href", "/board/open/qnaboard/"+pageNo);	
+});
+$(".tap-navi button").eq(2).click(function(){
+	$(location).attr("href", "/board/open/bookReview/"+pageNo);	
+});
+$(".tap-navi button").eq(3).click(function(){
+	$(location).attr("href", "/board/open/requestedbook/"+pageNo);	
+});
+</script>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="https//www.thymeleaf.org">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<head>
+	<th:block th:include="/admin/common::head"/>
+	<style type="text/css">
+		#content .wrap{
+			padding: 0 50px;
+		}
+		#content .wrap p{
+			border-top: 2px solid #aaa;
+			border-bottom: 1px solid #aaa;
+		}
+		#content .wrap div{
+			padding: 0.5em 1em;
+			background-color: #e9e9e9;
+			padding: 1em;
+		}
+
+	</style>
+<script type="text/javascript">
+	var pageNo=1; //페이지번호를 저장하는 변수
+	var div=0;
+	$(function(){
+		pageNo=1;//페이지번호 1번으로 초기화
+		div=$(this).index();
+		getQnaList(div)
+	});
+	function getQnaList(){
+		$.ajax({
+			type:"get",
+			data:{"page":pageNo},
+			url: "/admin/qna/listdata/"+pageNo,
+			dataType: "html",
+			success:function(result){
+				//alert("성공");
+				$("#result").html(result);
+				$("#pagging button").click(function(){
+					//alert("클릭");
+					pageNo=$(this).text().trim();
+					getQnaList(div); 
+				});
+			}
+		});
+	}
+</script>
+</head>
+<body>
+	<main>
+		<h1>관리자페이지입니다.</h1>
+		<div class="wrap flex">
+			<th:block th:insert="/admin/common::menu"/>
+			<section id="content">
+				<h1>내용</h1>
+				<div class="wrap">
+					<p>Qna 리스트페이지 입니다.</p>
+					<div id="result">
+						Qna 리스트페이지 내용들어갈영역
+					</div>
+				</div>
+			</section>
+		</div>
+	</main>
+</body>
+</html>

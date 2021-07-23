@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="https//www.thymeleaf.org">
+<head>
+<th:block th:include="/common/commons::head"></th:block>
+<link rel="stylesheet" href="/css/boardcss/open/write/requested.css">
+</head>
+<body>
+	<th:block th:insert="/common/commons::header"></th:block>
+	<main>
+		<section id="fromWrap">
+			<form action="/board/requestedbook/write" method="post">
+				<!-- ContentsWrap -->
+				<div id="contentsWrap">
+					<!-- Title -->
+					<div>
+						<p id="title_p">희망도서</p>
+					</div>
+					<!-- //Title -->
+					<!-- Contents -->
+					<div id="contents">
+						<!-- write -->
+						<h1>희망도서 신청하기</h1>
+						<ul class="requested-write flex">
+							<li class="con_tit">
+								<span>도서명</span>
+								<input id="booktit" name="booktit" type="text" />
+							</li>
+							<li class="con_author">
+								<span>저자</span>
+								<input id="author" name="author" type="text" />
+							<li>
+						</ul>
+						<ul class="requested-write flex">
+							<li class="con_pub">
+								<span>출판사</span>
+								<input id="publisher" name="publisher" type="text" />		
+							</li>
+							<li class="con_writer">
+								<span>신청자</span>
+								<input id="writer" name="writer" type="text" />		
+							</li>
+						</ul>
+						<ul class="requested_content">		
+							<li class="con_text">
+								<textarea id="content" name="content" title="내용을 작성하세요." rows="10" cols="100"></textarea>
+							</li>
+						</ul>
+						<!-- //write -->
+
+						<!-- button -->
+						<div class="board_bottom flex center">
+							<p class="rigth">
+								<span class="btnOk">
+									<button type="submit">등록</button>
+								</span> 
+								<span class="btnCancel">
+									<button type="button">취소</button>
+								</span>
+							</p>
+						</div>
+						<!-- //button -->
+					</div>
+					<!-- //Contents -->
+				</div>
+				<!-- //ContentsWrap -->
+			</form>
+		</section>
+	</main>
+	<th:block th:insert="/common/commons::footer"></th:block>
+</body>
+<script type="text/javascript">
+var pageNo=1;
+$(".btnCancel").click(function(){
+	$(location).attr("href", "/board/open/requestedbook/"+pageNo);
+});
+</script>
+</html>
