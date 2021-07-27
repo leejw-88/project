@@ -8,7 +8,7 @@
 	<th:block th:insert="/common/commons::header"></th:block>
 	<main>
 		<section id="fromWrap">
-			<form action="/board/notice/write" method="post">
+			<form name="writeform" action="/board/notice/write" method="post">
 				<!-- ContentsWrap -->
 				<div id="contentsWrap">
 					<!-- Title -->
@@ -44,7 +44,7 @@
 						<div class="board_bottom flex center">
 							<p class="rigth">
 								<span class="btnOk">
-									<button type="submit">등록</button>
+									<button type="button">등록</button>
 								</span> 
 								<span class="btnCancel">
 									<button type="button">취소</button>
@@ -66,5 +66,23 @@ var pageNo=1;
 $(".btnCancel").click(function(){
 	$(location).attr("href", "/board/open/notice/"+pageNo);
 });
+$(".btnOk").click(writeformCheck);//유효성체크
+function writeformCheck(){
+	var title = document.getElementById("title");
+	var content = document.getElementById("content");
+
+	if(title.value ==""){//해당 입력값이 없을경우
+		alert("제목을 입력하세요.");//메세지 띄움
+		title.focus();//커서가깜빡임
+		return false;//반환하는값 없음 코드진행 멈춤
+	}
+	if(content.value ==""){//해당 입력값이 없을경우
+		alert("내용을 작성하세요.");
+		content.focus();//커서가깜빡임
+		return false;//반환하는값 없음 코드진행 멈춤
+	}
+	//입력 값 전송
+	document.writeform.submit();
+}
 </script>
 </html>

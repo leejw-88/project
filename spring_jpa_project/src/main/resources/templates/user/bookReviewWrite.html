@@ -55,7 +55,7 @@
 	<th:block th:insert="/common/commons::header"></th:block>
 	<main>
 		<section id="fromWrap">
-			<form action="/board/bookReview/write" method="post" enctype="multipart/form-data">
+			<form name="writeform" action="/board/bookReview/write" method="post" enctype="multipart/form-data">
 				<!-- ContentsWrap -->
 				<div id="contentsWrap">
 					<!-- Title -->
@@ -85,7 +85,7 @@
 							</li>
 							<li class="con_writer">
 								<span>작성자</span>
-								<input id="writer" name="writer" type="text" />		
+								<input id="writer" name="writer" type="text" th:value="${#authentication.name}" />		
 							</li>
 						</ul>
 						<ul class="reviw_content flex">	
@@ -104,7 +104,7 @@
 						<div class="board_bottom flex center">
 							<p class="rigth">
 								<span class="btnOk">
-									<button type="submit">등록</button>
+									<button type="button">등록</button>
 								</span> 
 								<span class="btnCancel">
 									<button type="button">취소</button>
@@ -126,5 +126,29 @@ var pageNo=1;
 $(".btnCancel").click(function(){
 	$(location).attr("href", "/board/open/bookReview/"+pageNo);
 });
+$(".btnOk").click(writeformCheck);//유효성체크
+function writeformCheck(){
+	var bookName = document.getElementById("bookName");
+	var title = document.getElementById("title");
+	var content = document.getElementById("content");
+
+	if(bookName.value ==""){//해당 입력값이 없을경우
+		alert("도서명을 입력하세요.");//메세지 띄움
+		bookName.focus();//커서가깜빡임
+		return false;//반환하는값 없음 코드진행 멈춤
+	}
+	if(title.value ==""){//해당 입력값이 없을경우
+		alert("제목을 입력하세요.");//메세지 띄움
+		title.focus();//커서가깜빡임
+		return false;//반환하는값 없음 코드진행 멈춤
+	}
+	if(content.value ==""){//해당 입력값이 없을경우
+		alert("내용을 작성하세요.");
+		content.focus();//커서가깜빡임
+		return false;//반환하는값 없음 코드진행 멈춤
+	}
+	//입력 값 전송
+	document.writeform.submit();
+}
 </script>
 </html>

@@ -5,21 +5,22 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<ul class="flex">
-		<li>도서명</li>
-		<li>저자</li>
-		<li>출판사</li>
-		<li>이미지</li>	
-	</ul>
-	<ul>
-		<li><img src="">
-			<ol th:each="dto:${list}" class="flex">
-				<li th:utext="${dto.title}"></li>
-				<li th:text="${dto.author}"></li>
-				<li th:text="${dto.publisher}"></li>
-				<img th:src="${dto.image}" />
-			</ol>
-		</li>
-	</ul>
+	<div th:each="dto:${list}" class="book_wrap flex">
+			<div class="book_img">
+				<img class="no_img" onerror="this.src='/images/noimg.gif'" th:src="${dto.image}" />
+			</div>
+			<ul class="book_content">
+				<li class="book_tit">
+					<strong>도서명 : </strong><span th:utext="${dto.title}"></span>
+				</li>
+				<li class="book_writer">
+					<strong>저자 : </strong><span th:utext="${dto.author}"></span>
+					<strong>출판사 : </strong><span th:utext="${dto.publisher}"></span>
+				</li>
+				<li class="book_con">
+					<strong>책소개 : </strong><span th:utext="${dto.description}"></span>
+				</li>
+			</ul>
+		</div>
 </body>
 </html>

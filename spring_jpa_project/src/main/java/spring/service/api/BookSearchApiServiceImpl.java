@@ -19,7 +19,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import spring.domain.dto.api.BookSearch;
-import spring.domain.dto.api.BookSearch.Item;
+import spring.domain.dto.api.Item;
 
 @Service
 public class BookSearchApiServiceImpl implements BookSearchApiService{

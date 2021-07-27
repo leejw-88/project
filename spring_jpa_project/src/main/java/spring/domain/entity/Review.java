@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import spring.domain.dto.ReviewDto;
 
 @Getter
 @Builder
@@ -41,5 +42,16 @@ public class Review extends BaseDate{
 	@Column(nullable = false)
 	private long fileSize;
 	
+	
+	public Review update(ReviewDto dto) {
+		bookName=dto.getBookName();
+		author=dto.getAuthor();
+		title=dto.getTitle();
+		content=dto.getContent();
+		return this;
+	}
+
+
+
 	
 }

@@ -30,4 +30,5 @@ public class Notice extends BaseDate{
 	private String writer;//작성자
 	@Column
 	private long view;//조회수
+
 }

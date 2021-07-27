@@ -40,7 +40,9 @@ public class MemberJoinService implements MemberService{
 	@Override
 	public boolean idCheck(String email) {
 		Optional<Member> result=repository.findByEmail(email);
+		System.out.println(" ajax result : "+result);
 		return result.isEmpty();
+		
 		
 	}
 

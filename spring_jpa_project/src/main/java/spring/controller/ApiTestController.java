@@ -6,14 +6,23 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import spring.service.api.BookSearchApiService;
+import spring.service.api.MovieApiService;
 
 @RestController//@Controllert + @ResponseBody
 public class ApiTestController {
 	
 	@Autowired
-	BookSearchApiService bookService;
+	MovieApiService movieService;
+	@GetMapping("/movie/daily")
+	public ModelAndView dailyMovieList(ModelAndView mv) {
+		mv.addObject("list" ,movieService.getDailyMovieList());
+		mv.setViewName("/board/apitest");
+		return mv;
+	}
 	
-	//네이버 도서검색
+	
+	@Autowired
+	BookSearchApiService bookService;
 	@GetMapping("/board/naverBookSearch")
 	public ModelAndView bookSearchList(String search, ModelAndView mv) {
 		mv.addObject("list" ,bookService.getBookSearchList(search));

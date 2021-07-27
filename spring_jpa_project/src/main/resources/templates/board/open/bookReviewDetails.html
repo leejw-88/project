@@ -1,11 +1,34 @@
 <!DOCTYPE html>
-<html xmlns:th="https//www.thymeleaf.org">
+<html xmlns:th="https//www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 	<th:block th:include="/common/commons::head"></th:block>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="/css/boardcss/open/detail/bookreview.css">
+	<link rel="stylesheet" href="/css/boardcss/open/write/bookreview.css">
+	<style type="text/css">
+		#file-input{
+			display: none;
+		}
+		#file-label{
+			display: inline-block;
+			width: 150px;
+			height: 214px;
+			border: 2px dashed aqua;
+			color: aqua;
+			text-align: center;
+			line-height: 214px;
+			font-size: 24px;
+			font-weight: 700;
+			background-color: rgba(0,255,255,0.05);
+			background-repeat:no-repeat;
+			background-position: center;
+			background-size: cover;  
+		}
+	</style>
 </head>
 <body>
+
 <th:block th:insert="/common/commons::header"></th:block>
 
 <h1>도서감상문</h1>
@@ -27,7 +50,7 @@
 	</ul>
 	<ul class="flex">
 		<li class="writer">
-			작성자 : <span th:text="${dto.writer}"></span>
+			작성자 : <span id="reviewWriter" th:text="${dto.writer}"></span>
 		</li>
 		<li class="date">
 			작성일 : <span th:text="${#temporals.format(dto.createdDate, 'yy-MM-dd HH:mm')}"></span>
@@ -39,10 +62,10 @@
 	<ol class="content flex">
 		<!-- 내용 -->
 		<li>
-			<img th:src="${dto.fileUrl + dto.fileName}" width="200px" >
+			<img onerror="this.src='/images/noimg.gif'" th:src="${dto.fileUrl + dto.fileName}" width="200px" >
 		</li>
 		<li class="noticeContent">
-			<span th:text="${dto.content}"></span>
+			<span th:utext="${dto.content}"></span>
 		</li>
 	</ol>
 	<ul>
@@ -56,8 +79,9 @@
 		</li>
 	</ul>
 	<ol class="flex center">
-		<li class="qnaCon">
-			<button class="btn-del">삭제</button>	
+		<li class="qnaCon" sec:authorize="hasRole('USER')" th:if=${dto.writer}==${#authentication.name} >
+			<button class="btn-edit" >수정</button>	
+			<button class="btn-del" >삭제</button>	
 			<span class="btn-del-able" style="display: none;">
 				<button class="btn-del-done">삭제확인</button>
 				<input type="hidden" th:value="${dto.no}" />
@@ -66,12 +90,104 @@
 		</li>	
 	</ol>
 </section>
+<section id="fromWrap" style="display: none;" >
+	<form id="formdata" name="writeform">
+		<!-- ContentsWrap -->
+		<div id="contentsWrap">
+			<!-- Title -->
+			<div>
+				<p id="title_p">도서감상문 수정</p>
+			</div>
+			<!-- //Title -->
+			<!-- Contents -->
+			<div id="contents">
+				<!-- write -->
+				<h1>도서감상문 작성하기</h1>
+				<ul class="reviw-write flex">
+					<li class="con_book">
+						<span>도서명</span>
+						<input id="bookName" name="bookName" type="text" th:value="${dto.bookName}"/>
+					</li>
+					<li class="con_author">
+						<span>저자</span>
+						<input id="author" name="author" type="text" th:value="${dto.author}"/>
+					<li>
+					
+				</ul>
+				<ul class="reviw-write flex">
+					<li class="con_tit">
+						<span>제목</span>
+						<input id="title" name="title" type="text" th:value="${dto.title}"/>		
+					</li>
+					
+				</ul>
+				<ul class="reviw_content flex">		
+					<li class="con_text">
+						<textarea id="content" name="content" title="내용을 작성하세요." rows="10" cols="100">[[${dto.content}]]</textarea>
+					</li>
+				</ul>
+				<!-- //write -->
+
+				<!-- button -->
+				<div class="board_bottom flex center">
+					<p class="rigth">
+						<span class="btn-edit-done">
+							<button type="button">수정완료</button>
+						</span> 
+						<input type="hidden" th:value="${dto.no}" />
+						<span class="btn-edit-cancel">
+							<button type="button">취소</button>
+						</span>
+					</p>
+				</div>
+				<!-- //button -->
+			</div>
+			<!-- //Contents -->
+		</div>
+		<!-- //ContentsWrap -->
+	</form>
+</section>
 <th:block th:insert="/common/commons::footer"></th:block>
 </body>
+
+
 <script type="text/javascript">
+//수정버튼클릭시
+//수정버튼-->수정확인 활성화
+$(".btn-edit").click(function(){
+	$(".qnaCon").hide();
+	$("#fromWrap").show();
+});
+
+//수정취소-->활성화 해제
+$(".btn-edit-cancel").click(function(){
+	$("#fromWrap").hide();
+	$(".qnaCon").show();
+	location.reload()
+});
+//수정완료버튼 클릭시 DB수정처리
+$(".btn-edit-done").click(function(){
+	var _no=$(this).next().val(); //수정버튼 뒤에있는 input태그 value
+	var formdata = $("#formdata").serialize();
+	$.ajax({
+		url :"/board/reviewDetails/update/"+_no,
+		data : formdata ,
+		dataType : 'json',
+		type :"put",
+		success:function(){
+			alert("asdsad");
+		}
+	});
+	/*
+	setTimeout(function() {
+		$(location).attr("href", "/board/reviewDetails/"+_no);
+		}, 0100);
+	*/
+});
+
+
 //삭제버튼클릭시
 //삭제버튼-->삭제확인 활성화
-
 $(".btn-del").click(function(){
 	$(this).hide();
 	$(this).next().show();

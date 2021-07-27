@@ -15,6 +15,10 @@ public interface ReviewService {
 
 	void details(long no, Model model);// 도서감상문 디테일페이지
 
-	String uploadTempFile(MultipartFile file);
+	String uploadTempFile(MultipartFile file);//임시파일 업로드
+
+	//Review details(long no);// 도서감상문 디테일페이지2
+
+	void detailUpdate(long no, ReviewDto dto);//도서감상문 업데이트
 
 }

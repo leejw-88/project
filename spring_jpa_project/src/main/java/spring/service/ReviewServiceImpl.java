@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
@@ -119,9 +121,24 @@ public class ReviewServiceImpl implements ReviewService{
 				.map(ReviewDto::new)
 				.orElseThrow();
 		model.addAttribute("dto",result);
-		
-		
 	}
+	/*
+	//디테일페이지 출력2
+	@Override
+	public Review details(long no) {
+		Optional<Review> opt=reviewRepository.findById(no);
+		return opt.get();
+	}
+	*/
+	//도서감상문 수정
+	@Transactional
+	@Override
+	public void detailUpdate(long no, ReviewDto dto) {
+		reviewRepository.findById(no)
+						.map(entity->entity.update(dto))
+						.get();
+	}
+
 	
 
 	

@@ -17,8 +17,9 @@
 	<section class="searchWrap">
 		<div>
 			<p>책 제목을 검색해주세요</p>
-			<input id="bookName" type="text">
-			<button type="button" id="btnSearch">검색</button>
+			<input type="text" id="searchText" placeholder="도서명을 입력하세요">
+			<button type="button" id="btn-naverBookSearch">검색</button>
+			<img src="">
 		</div>
 	</section>
 	<!-- 목록 출력 -->
@@ -31,90 +32,21 @@
 	</section>
 </body>
 <script type="text/javascript">
-
-//카카오 도서검색 
-
-/* 개발가이드 */
-/* https://developers.kakao.com/docs/latest/ko/daum-search/dev-guide#search-book */
-$(function(){
-	var pageNum=1;
-	$("#btnSearch").click(getBookList);// 클릭시 목록 출력함수
-	$("#pagging button").click(pagging);// 클릭시 페이징 처리함수
-});
-
-//검색 목록 출력
-function getBookList(pageNum){
-	var size = 5;//한페이지에 출력할 목록 수 
-	$.ajax({
-		method:"get",
-		url: "https://dapi.kakao.com/v3/search/book",//전송주소
-		data:{
-			query: $("#bookName").val(),
-			page: pageNum,
-			size: size
-		},//보낼데이터
-		headers:{Authorization: "KakaoAK 8682536b64dcf93b0f010770a14738d9"},//인증키
-		success:function (response) {
-			pagging(response);//페이징함수로 데이터보냄
-			parsing(response);//도서출력함수로 데이터보냄
-		}
-	});
-}
-//검색된 도서 출력
-function parsing(data){
-	var booksList = ``;
-	var total_count= data.meta.total_count;// 검색된 문서 수
-	
-	for (var i = 0; i < total_count; i++){// 검색된 문서 수만큼 반복
-		var _img = data.documents[i].thumbnail //이미지
-		if(_img == ''){//등록된 이미지 없을시 noimg이미지 출력
-		var _img="/images/noimg.gif";
-		}
-		booksList += `
-		<div class="book_wrap flex">
-			<div class="book_img">
-				${"<img src='"+ _img + "'/>"}
-			</div>
-			<ul class="book_content">
-				<li class="book_tit">
-					<strong>도서명 : ${"<a href='"+ data.documents[i].url +"'>" + data.documents[i].title}
-				</li>
-				<li class="book_writer">
-					<strong>저자 : </strong>${data.documents[i].authors}
-					<strong>출판사 : </strong>${data.documents[i].publisher}
-				</li>
-				<li class="book_con">
-					<strong>책소개 : </strong>${data.documents[i].contents}
-				</li>
-			</ul>
-		</div>
-		`;
-		$('#showBookList').empty().append(booksList);
-	}
-}
-
-//페이징 처리함수 총 페이지 출력
-function pagging(data){
-	var total_count= data.meta.total_count;// 검색된 문서 수
-	var size= 10;//한페이지에 출력할 개수
-	var pageTot=total_count/size;// 총페이지수 = 컨텐츠수/한페이지에 출력할수
-	var pagging = ``;
-	if(pageTot>5){pageTot=5}
-	for(var i=1; i<=pageTot; i++){//총페이지수 만큼 페이지 이동버튼생성
-		pagging += `
-			<button type="button">${i}</button>
-		`;	
-	}	
-	$('#pagging').empty().append(pagging); // pagging 내용이 있으면 id='pagging'로 내용전송
 	$(function(){
-		$("#pagging button").click(function(){// 버튼 클릭시 인덱스번호 받아와서 페이징처리
-			var idx=$(this).text();
-			var pageNo=idx;
-			getBookList(pageNo);//클릭한 번호로 페이지 재출력
-		});
+		$("#btn-naverBookSearch").click(getBookSearchList);
 	});
-}
+	function getBookSearchList(){
+		var search=$("#searchText").val();
+		//alert(search);
+		$.ajax({
+			url:"/board/naverBookSearch",//요청주소
+			data:{search : search},//key("문자열") : value
+			success:function(result){
+				$("#showBookList").html(result);
+			}
+		});		
 
+	}
 
 </script>
 </html>

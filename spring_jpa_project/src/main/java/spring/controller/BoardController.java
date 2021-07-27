@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -81,9 +82,9 @@ public class BoardController {
 		//System.out.println("delete-no:"+no);
 		noticeService.noticeDelete(no);
 	}
-	@GetMapping("/board/open/noticeWrite")// 공지사항 글쓰기 페이지 이동
+	@GetMapping("/admin/noticeWrite")// 공지사항 글쓰기 페이지 이동
 	public String noticeWrite() {
-		return "/board/open/noticeWrite";
+		return "/admin/noticeWrite";
 	}
 	@GetMapping("/board/noticeDetails/{no}")// 공지사항 디테일 페이지 이동
 	public String noticeDetails(@PathVariable long no,Model model) {
@@ -109,9 +110,9 @@ public class BoardController {
 		//System.out.println("delete-no:"+no);
 		qnaService.qnaDelete(no);
 	}
-	@GetMapping("/board/open/qnaWrite")// Qna 글쓰기 페이지 이동
+	@GetMapping("/user/qnaWrite")// Qna 글쓰기 페이지 이동
 	public String qnaWrite() {
-		return "/board/open/qnaWrite";
+		return "/user/qnaWrite";
 	}
 	@GetMapping("/board/qnaDetails/{no}")// Qna 디테일 페이지 이동
 	public String qnaDetails(@PathVariable long no,Model model) {
@@ -132,22 +133,26 @@ public class BoardController {
 		reviewService.getBookReviewList(pageNo, model);
 		return "/board/open/bookReview";
 	}
-	@ResponseBody
-	@DeleteMapping("/board/bookReview/{no}")//도서감상문 페이지 삭제처리
-	public void bookreviewDelete(@PathVariable long no) {
-		//System.out.println("delete-no:"+no);
-		reviewService.bookReviewDelete(no);
-	}
-	@GetMapping("/board/open/bookReviewWrite")// 도서감상문 글쓰기 페이지 이동
-	public String bookReviewWrite() {
-		return "/board/open/bookReviewWrite";
-	}
 	@GetMapping("/board/reviewDetails/{no}")// 도서감상문 디테일 페이지 이동
 	public String reviewDetails(@PathVariable long no,Model model) {
+		//요청된 게시글 번호 이용해서 DB에서 상세정보를 받아온다.
 		reviewService.details(no,model);
 		return "/board/open/bookReviewDetails";
 	}
-	
+	/*
+	@GetMapping("/board/reviewDetails/{no}")// 도서감상문 디테일 페이지 이동2
+	public ModelAndView reviewDetails(@PathVariable long no) {
+		//요청된 게시글 번호 이용해서 DB에서 상세정보를 받아온다.
+		ModelAndView mv=new ModelAndView("/board/open/bookReviewDetails");
+		Review detail=reviewService.details(no);
+		mv.addObject("dto",detail);
+		return mv;
+	}
+	*/
+	@GetMapping("/user/bookReviewWrite")// 도서감상문 글쓰기 페이지 이동
+	public String bookReviewWrite() {
+		return "/user/bookReviewWrite";
+	}
 	@PostMapping("/board/bookReview/write")// 도서감상문 글쓰기 저장
 	public String bookReviewWrite(MultipartFile file,ReviewDto dto) {
 		reviewService.bookReviewWrite(file,dto);
@@ -159,6 +164,18 @@ public class BoardController {
 	public String temp(MultipartFile file) {
 		 //System.out.println(file.getOriginalFilename());
 		return reviewService.uploadTempFile(file);
+	}
+	//도서감상문 디테일페이지 수정처리
+	@ResponseBody
+	@PutMapping("/board/reviewDetails/update/{no}")
+	public void detailUpdate(@PathVariable long no,ReviewDto dto) {
+		reviewService.detailUpdate(no,dto);
+		}
+	@ResponseBody
+	@DeleteMapping("/board/bookReview/{no}")//도서감상문 페이지 삭제처리
+	public void bookreviewDelete(@PathVariable long no) {
+		//System.out.println("delete-no:"+no);
+		reviewService.bookReviewDelete(no);
 	}
 	
 	/* /////////// 희망도서 페이지 /////////////////////////// */
@@ -173,9 +190,9 @@ public class BoardController {
 		//System.out.println("delete-no:"+no);
 		requestedBookService.requestedBookDelete(no);
 	}
-	@GetMapping("/board/open/requestedbookWrite")// 희망도서 글쓰기 페이지 이동
+	@GetMapping("/user/requestedbookWrite")// 희망도서 글쓰기 페이지 이동
 	public String requestedbookWrite() {
-		return "/board/open/requestedbookWrite";
+		return "/user/requestedbookWrite";
 	}
 	@PostMapping("/board/requestedbook/write")// 희망도서 글쓰기 저장
 	public String requestedbookWrite(RequestedBookDto dto) {

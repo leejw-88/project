@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="https//www.thymeleaf.org">
+<html xmlns:th="https//www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 	<th:block th:include="/common/commons::head"></th:block>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -48,7 +49,7 @@
 	</ul>
     <ol class="flex center">
 		<li class="qnaCon">
-			<button class="btn-del">삭제</button>	
+			<button class="btn-del" sec:authorize="hasRole('ADMIN')">삭제</button>	
 			<span class="btn-del-able" style="display: none;">
 				<button class="btn-del-done">삭제확인</button>
 				<input type="hidden" th:value="${dto.no}" />

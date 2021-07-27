@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.permitAll()//모두 접근가능
 				.antMatchers("/user/**")
 					.hasRole("USER")//USER권한이상 접근가능
-				.antMatchers("/admin/**")
+				.antMatchers("/admin/**","/uploadSummernoteImageFile/**")
 					.hasRole("ADMIN")//ADMIN권한이상 접근가능
 				.anyRequest()//위 설정된 이외 나머지경로
 					.authenticated();//인증권한이 있어야 접근가능
@@ -43,13 +43,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http.csrf().disable();
 		http.logout()
-				.logoutSuccessUrl("/");
+				.logoutSuccessUrl("/");//로그아웃후 이동될 페이지
 	}
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		//스프링 시큐리티 적용 무시
 		web.ignoring()
-			.antMatchers("/css/**","/js/**","/images/**");
+			.antMatchers("/css/**","/js/**","/images/**","/summernote/**");
 	}
 	
 }

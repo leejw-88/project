@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https//www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="/css/boardcss/open/qna.css">
@@ -81,7 +82,7 @@
 					</div>
 				</section>
 				<section>
-					<button id="btnWrite" type="button">글쓰기</button>
+					<button id="btnWrite" type="button" sec:authorize="hasRole('USER')">글쓰기</button>
 				</section>
 			</section>
 		</div>
@@ -103,7 +104,7 @@ $(function(){
 	});	
 	//글쓰기 페이지 이동
 	$("#btnWrite").click(function() {
-		$(location).attr("href","/board/open/qnaWrite");
+		$(location).attr("href","/user/qnaWrite");
 	});
 	//디테일 페이지 이동
 	$(".qna_Tit").click(function() {

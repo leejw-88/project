@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="https//www.thymeleaf.org">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <head>
 	<th:block th:include="/admin/common::head"/>
 	<style type="text/css">
@@ -18,32 +17,7 @@
 		}
 
 	</style>
-<script type="text/javascript">
-	var pageNo=1; //페이지번호를 저장하는 변수
-	var div=0;
-	$(function(){
-		pageNo=1;//페이지번호 1번으로 초기화
-		div=$(this).index();
-		getQnaList(div)
-	});
-	function getQnaList(){
-		$.ajax({
-			type:"get",
-			data:{"page":pageNo},
-			url: "/admin/qna/listdata/"+pageNo,
-			dataType: "html",
-			success:function(result){
-				//alert("성공");
-				$("#result").html(result);
-				$("#pagging button").click(function(){
-					//alert("클릭");
-					pageNo=$(this).text().trim();
-					getQnaList(div); 
-				});
-			}
-		});
-	}
-</script>
+
 </head>
 <body>
 	<main>
@@ -62,4 +36,31 @@
 		</div>
 	</main>
 </body>
+<script type="text/javascript">
+var pageNo=1; //페이지번호를 저장하는 변수
+var div=0;
+$(function(){
+	pageNo=1;//페이지번호 1번으로 초기화
+	div=$(this).index();
+	getQnaList(div)
+});
+function getQnaList(){
+	$.ajax({
+		type:"get",
+		data:{"page":pageNo},
+		url: "/admin/qna/listdata/"+pageNo,
+		dataType: "html",
+		success:function(result){
+			//alert("성공");
+			$("#result").html(result);
+			$("#pagging button").click(function(){
+				//alert("클릭");
+				pageNo=$(this).text().trim();
+				getQnaList(div); 
+			});
+		}
+	});
+}
+
+</script>
 </html>
